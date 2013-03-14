@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import com.actionbarsherlock.app.SherlockActivity;
 
-public class AddTask extends Activity {
+public class AddTaskActivity extends SherlockActivity {
     /**
      * Called when the activity is first created.
      */

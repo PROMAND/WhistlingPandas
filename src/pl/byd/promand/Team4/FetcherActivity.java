@@ -8,8 +8,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import com.actionbarsherlock.app.SherlockActivity;
 
-public class Fetcher extends Activity {
+public class FetcherActivity extends SherlockActivity {
 	/**
 	 * Called when the activity is first created.
 	 */

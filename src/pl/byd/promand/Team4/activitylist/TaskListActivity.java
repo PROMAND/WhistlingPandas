@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockListActivity;
 import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskType;
@@ -14,7 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.view.View;
 
-public class TaskListActivity extends ListActivity {
+public class TaskListActivity extends SherlockListActivity {
 	
 	private List<Task> tasksList = new ArrayList<Task>();
 	
