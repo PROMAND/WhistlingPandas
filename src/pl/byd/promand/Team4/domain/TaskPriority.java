@@ -3,8 +3,10 @@ package pl.byd.promand.Team4.domain;
 import android.graphics.Color;
 
 public enum TaskPriority {
+
+	// Keep in the order as in tasks list view!
 	
-	LOW(Color.GREEN), MEDIUM(Color.YELLOW), HIGH(Color.RED);
+	H(Color.RED), M(Color.YELLOW), L(Color.GREEN);
 	
 	private int color;
 	

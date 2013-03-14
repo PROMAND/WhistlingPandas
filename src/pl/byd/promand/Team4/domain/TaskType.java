@@ -4,6 +4,7 @@ import pl.byd.promand.Team4.R;
 import pl.byd.promand.Team4.R.drawable;
 
 public enum TaskType {
+	
 	BUG(R.drawable.bug), FEATURE(R.drawable.feature);
 	
 	private int image;
