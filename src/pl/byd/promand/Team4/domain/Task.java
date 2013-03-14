@@ -1,5 +1,6 @@
 package pl.byd.promand.Team4.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Task {
@@ -78,6 +79,12 @@ public class Task {
 
 	public void setType(TaskType type) {
 		this.type = type;
+	}
+
+	public String getFormattedDeadline() {
+		SimpleDateFormat dt1 = new SimpleDateFormat("dd.mm.yyyyy");
+		String ret = dt1.format(getDeadLine());
+		return ret;
 	}
 
 }
