@@ -37,7 +37,7 @@ public class MainViewActivity extends SherlockListActivity {
             Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
             startActivity(addTaskActivity);
 			return true;
-		case R.id.allTasks:
+		case R.id.allTasks: 
             Intent allTasks =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(allTasks);
 			return true;

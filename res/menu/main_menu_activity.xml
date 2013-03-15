@@ -5,25 +5,24 @@
         android:id="@+id/addTask"
         android:orderInCategory="1"
         android:showAsAction="always"
-        android:icon="@drawable/add_new"
-		/>
+        android:title="Awesome Action Bar button"/>
     
     <item
         android:id="@+id/allTasks"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:showAsAction="always"
-        android:title="All Tasks"/>
+        android:title="All tasks"/>
     
     <item
         android:id="@+id/myTasks"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:showAsAction="always"
         android:title="My Tasks"/>
     
     <item
         android:id="@+id/optionMenu"
         android:icon="@drawable/gear"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:showAsAction="always"
         android:title="Options">
         <menu>
