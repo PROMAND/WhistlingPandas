@@ -27,9 +27,9 @@ public class FetcherActivity extends SherlockActivity {
             startActivity(addTaskActivity);
 			return true;
 		case R.id.allTasks:
-			Log.i(TAG, "allTasks");
-            Intent allTasks =new Intent(FetcherActivity.this, TaskListActivity.class);
-            startActivity(allTasks);
+//			Log.i(TAG, "allTasks");
+//            Intent allTasks =new Intent(FetcherActivity.this, TaskListActivity.class);
+//            startActivity(allTasks);
 			return true;
 		case R.id.myTasks:
 			Log.i(TAG, "Mystasks");
@@ -39,7 +39,7 @@ public class FetcherActivity extends SherlockActivity {
             startActivity(inviteActivity);
 			return true;
 		case R.id.settings:
-            Intent i=new Intent(FetcherActivity.this, AddTaskActivity.class);
+            Intent i=new Intent(FetcherActivity.this, PropertiesActivity.class);
             startActivity(i);
 			return true;
 		case R.id.refresh:
