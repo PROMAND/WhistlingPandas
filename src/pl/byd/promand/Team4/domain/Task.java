@@ -1,10 +1,17 @@
 package pl.byd.promand.Team4.domain;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
+
 import pl.byd.promand.Team4.activitylist.ITaskListItem;
 import pl.byd.promand.Team4.activitylist.TaskListSeparator;
+import pl.byd.promand.Team4.utils.Utils;
 
 /**
  * 
@@ -13,7 +20,7 @@ import pl.byd.promand.Team4.activitylist.TaskListSeparator;
  * @author veskikri
  *
  */
-public class Task implements ITaskListItem {
+public class Task implements ITaskListItem, Parcelable {
 
 	private String title, assignee, description;
 	
@@ -52,6 +59,30 @@ public class Task implements ITaskListItem {
 
 	public void setAssignee(String assignee) {
 		this.assignee = assignee;
+	}
+
+	public TextWatcher getAssigneeWatcher() {
+		TextWatcher watcher = new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				
+			}
+		};
+		return watcher;
 	}
 
 	public String getDescription() {
@@ -103,8 +134,7 @@ public class Task implements ITaskListItem {
 	}
 
 	public String getFormattedDeadline() {
-		SimpleDateFormat dt1 = new SimpleDateFormat("dd.mm.yyyyy");
-		String ret = dt1.format(getDeadLine());
+		String ret = Utils.convertToString(getDeadLine());
 		return ret;
 	}
 
@@ -141,5 +171,53 @@ public class Task implements ITaskListItem {
 		int ret = this.getState().ordinal() * 10 + this.getPriority().ordinal();
 		return super.hashCode();
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+    // Parcelling part
+	
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {
+        		this.getTitle(), // Index 0
+        		this.getAssignee(), // 1
+        		this.getDescription(), // 2
+        		this.getPriority().toString(), // 3
+        		this.getType().toString(), // 4
+        		this.getState().toString(), // 5
+        		Utils.convertToString(getCreated()), // 6
+        		Utils.convertToString(getDeadLine()), // 7
+        });
+	}
+	
+    public Task(Parcel in){
+        String[] data = new String[8];
+        in.readStringArray(data);
+        this.title = data[0];
+        this.assignee = data[1];
+        this.description = data[2];
+        this.priority = TaskPriority.valueOf(data[3]);
+        this.type = TaskType.valueOf(data[4]);
+        this.state = TaskState.valueOf(data[5]);
+        try {
+			this.created = Utils.parseDateFromString(data[6]);
+	        this.deadLine = Utils.parseDateFromString(data[7]);
+		} catch (ParseException e) {
+			throw new RuntimeException("Parsing date failed", e);
+		}
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Task createFromParcel(Parcel in) {
+            return new Task(in); 
+        }
+
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
 
 }

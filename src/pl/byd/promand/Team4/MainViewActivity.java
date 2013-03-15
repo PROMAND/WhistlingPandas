@@ -12,23 +12,20 @@ import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
+import pl.byd.promand.Team4.utils.Constants;
+import pl.byd.promand.Team4.utils.MainModel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainViewActivity extends SherlockListActivity {
-	
-	// Keep this list sorted!
-	private List<ITaskListItem> tasksList = new ArrayList<ITaskListItem>();
-	
-	private static int counter = 1;
-
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -74,79 +71,16 @@ public class MainViewActivity extends SherlockListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		populateWithTestData(tasksList);
-		populateWithTestData(tasksList); // more items
-		addSeparators(tasksList);
-		Collections.sort(tasksList);
-		setListAdapter(new TaskListAdapter(this, tasksList));
-	}
-
-	private void addSeparators(List<ITaskListItem> tasksList2) {
-		List<TaskState> states = new ArrayList<TaskState>();
-		for (ITaskListItem item : tasksList2) {
-			if (item instanceof Task) {
-				Task cur = (Task)item;
-				TaskState curState = cur.getState();
-				states.add(curState);
-			}
-		}
-		List<TaskListSeparator> separators = new ArrayList<TaskListSeparator>();
-		for (TaskState state : states) {
-			switch (state) {
-			case A:
-				if (!separators.contains(TaskListSeparator.SEPARATOR_ASSIGNED)) {
-					separators.add(TaskListSeparator.SEPARATOR_ASSIGNED);
-				}
-				break;
-			case F:
-				if (!separators.contains(TaskListSeparator.SEPARATOR_FINISHED)) {
-					separators.add(TaskListSeparator.SEPARATOR_FINISHED);
-				}
-				break;
-			case IP:
-				if (!separators.contains(TaskListSeparator.SEPARATOR_IN_PROGRESS)) {
-					separators.add(TaskListSeparator.SEPARATOR_IN_PROGRESS);
-				}
-				break;
-			case R:
-				if (!separators.contains(TaskListSeparator.SEPARATOR_REJECTED)) {
-					separators.add(TaskListSeparator.SEPARATOR_REJECTED);
-				}
-				break;
-
-			default:
-				throw new RuntimeException("Unsupported state: " + state);
-			}
-		}
-		/*
-		separators.add(TaskListSeparator.SEPARATOR_IN_PROGRESS);
-		separators.add(TaskListSeparator.SEPARATOR_ASSIGNED);
-		separators.add(TaskListSeparator.SEPARATOR_REJECTED);
-		*/
-		tasksList2.addAll(separators);
-	}
-
-	private void populateWithTestData(Collection<ITaskListItem> paramList) {
-		for (TaskType type : TaskType.values()) {
-			for (TaskPriority priority : TaskPriority.values()) {
-				for (TaskState state : TaskState.values()) {
-				String name = state + " - " + priority + " " + counter;
-				Task task = new Task(name , "Person " + counter, "Description " + counter, Calendar
-						.getInstance().getTime(), Calendar.getInstance().getTime(),
-						priority, type, state);
-				paramList.add(task);
-				counter++;
-				}
-			}
-		}
+		setListAdapter(new TaskListAdapter(this, MainModel.getInstance().getTasksList()));
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		/*
-		 * String selectedValue = (String) getListAdapter().getItem(position);
-		 * Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
-		 */
+		Task selectedValue = (Task) getListAdapter().getItem(position);
+		// Toast.makeText(this, selectedValue.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
+        addTaskActivity.putExtra(Constants.INTENT_EXTRA_TASK, selectedValue);
+        startActivity(addTaskActivity);
 	}
 	
 	
