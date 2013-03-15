@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/addTask"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:icon="@drawable/add_new"
+		/>
+    
+    <item
+        android:id="@+id/allTasks"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="All Tasks"/>
+    
+    <item
+        android:id="@+id/myTasks"
+        android:orderInCategory="2"
+        android:showAsAction="always"
+        android:title="My Tasks"/>
+    
+    <item
+        android:id="@+id/optionMenu"
+        android:icon="@drawable/gear"
+        android:orderInCategory="3"
+        android:showAsAction="always"
+        android:title="Options">
+        <menu>
+            <item
+                android:id="@+id/invite"
+                android:title="Invite"/>
+            <item
+                android:id="@+id/settings"
+                android:title="Settings"/>
+            <item
+                android:id="@+id/refresh"
+                android:title="Refresh"/>
+        </menu>
+    </item>
+
+</menu>
