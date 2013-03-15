@@ -28,7 +28,7 @@ public class FetcherActivity extends SherlockActivity {
 			return true;
 		case R.id.allTasks:
 			Log.i(TAG, "allTasks");
-            Intent allTasks =new Intent(FetcherActivity.this, TaskListActivity.class);
+            Intent allTasks =new Intent(FetcherActivity.this, MainViewActivity.class);
             startActivity(allTasks);
 			return true;
 		case R.id.myTasks:
