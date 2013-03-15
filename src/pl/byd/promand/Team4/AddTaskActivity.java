@@ -1,6 +1,8 @@
 package pl.byd.promand.Team4;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +12,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.actionbarsherlock.app.SherlockActivity;
 
 public class AddTaskActivity extends SherlockActivity {
@@ -24,7 +28,7 @@ public class AddTaskActivity extends SherlockActivity {
 		String[] assigneeArray = new String[3];
 		assigneeArray[0] = "Assignee";
 		assigneeArray[1] = "Alina";
-		assigneeArray[2] = "Kristjan";
+		assigneeArray[2] = "Malina";
 
 		String[] typesArray = new String[3];
 		typesArray[0] = "Type";
@@ -47,6 +51,14 @@ public class AddTaskActivity extends SherlockActivity {
 
 			@Override
 			public void onClick(View v) {
+				Context context = getApplicationContext();
+				CharSequence text = "Task is saved!";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+				//future functionality, non needed now
+				/*
 				EditText title = (EditText) findViewById(R.id.title);
 				Spinner assignee = (Spinner) findViewById(R.id.assignee);
 				DatePicker deadline = (DatePicker) findViewById(R.id.deadline);
@@ -56,8 +68,9 @@ public class AddTaskActivity extends SherlockActivity {
 
 				String deadlineString = deadline.toString();
 				System.out.println(deadlineString);
+				*/
 			}
 		});
-
+	
 	}
 }

@@ -1,5 +1,4 @@
 package pl.byd.promand.Team4.activitylist;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -9,18 +8,28 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+import pl.byd.promand.Team4.R;
 import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.util.Log;
 import android.view.View;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.*;
 
 public class TaskListActivity extends ListActivity {
+	
+	
 	
 	// Keep this list sorted!
 	private List<ITaskListItem> tasksList; //  = new ArrayList<Task>();
@@ -105,5 +114,8 @@ public class TaskListActivity extends ListActivity {
 		 * Toast.makeText(this, selectedValue, Toast.LENGTH_SHORT).show();
 		 */
 	}
+	
+	
+
 
 }

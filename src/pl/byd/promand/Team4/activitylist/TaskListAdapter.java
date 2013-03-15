@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import pl.byd.promand.Team4.R;
+import pl.byd.promand.Team4.R.id;
+import pl.byd.promand.Team4.R.layout;
 import pl.byd.promand.Team4.domain.Task;
 import android.content.Context;
 import android.view.LayoutInflater;
