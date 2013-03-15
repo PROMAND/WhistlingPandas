@@ -5,4 +5,5 @@ import com.actionbarsherlock.app.SherlockActivity;
 
 public class Fetcher extends SherlockActivity {
 
+	
 }
