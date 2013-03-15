@@ -37,12 +37,18 @@ public class MainViewActivity extends SherlockListActivity {
             Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
             startActivity(addTaskActivity);
 			return true;
-		case R.id.allTasks: 
+        case R.id.allTasks:
             Intent allTasks =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(allTasks);
-			return true;
-		case R.id.myTasks:
-			return true;
+            return true;
+        case R.id.assignedToMe:
+            Intent assignedToMe =new Intent(MainViewActivity.this, MainViewActivity.class);
+            startActivity(assignedToMe);
+            return true;
+        case R.id.iAssigned:
+            Intent iAssigned =new Intent(MainViewActivity.this, MainViewActivity.class);
+            startActivity(iAssigned);
+            return true;
 		case R.id.invite:
             Intent inviteActivity =new Intent(MainViewActivity.this, InviteActivity.class);
             startActivity(inviteActivity);

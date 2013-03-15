@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+
+
     <item
-        android:id="@+id/addTask"
-        android:orderInCategory="1"
-        android:showAsAction="always"
-        android:title="Awesome Action Bar button"/>
-    
+            android:id="@+id/refresh"
+            android:orderInCategory="2"
+            android:showAsAction="always"
+            android:icon="@drawable/refresh"/>
+
     <item
-        android:id="@+id/allTasks"
-        android:orderInCategory="2"
-        android:showAsAction="always"
-        android:title="All tasks"/>
-    
-    <item
-        android:id="@+id/myTasks"
+        android:id="@+id/tasks"
         android:orderInCategory="3"
         android:showAsAction="always"
-        android:title="My Tasks"/>
+        android:title="Tasks">
+        <menu>
+            <item
+                    android:id="@+id/addTask"
+                    android:showAsAction="always"
+                    android:title="Add task"/>
+            <item
+                    android:id="@+id/allTasks"
+                    android:title="All tasks"/>
+            <item
+                    android:id="@+id/assignedToMe"
+                    android:title="Tasks assigned to me"/>
+            <item
+                    android:id="@+id/iAssigned"
+                    android:title="Tasks I assigned"/>
+        </menu>
+    </item>
     
     <item
         android:id="@+id/optionMenu"
-        android:icon="@drawable/gear"
         android:orderInCategory="4"
         android:showAsAction="always"
         android:title="Options">
         <menu>
             <item
                 android:id="@+id/invite"
-                android:title="Invite"/>
+                android:title="Send invite"/>
             <item
                 android:id="@+id/settings"
-                android:title="Settings"/>
-            <item
-                android:id="@+id/refresh"
-                android:title="Refresh"/>
+                android:title="Project settings"/>
         </menu>
     </item>
 

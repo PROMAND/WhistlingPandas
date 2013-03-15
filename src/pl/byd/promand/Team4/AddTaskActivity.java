@@ -28,49 +28,34 @@ public class AddTaskActivity extends SherlockActivity {
 		String[] assigneeArray = new String[3];
 		assigneeArray[0] = "Assignee";
 		assigneeArray[1] = "Alina";
-		assigneeArray[2] = "Malina";
+        assigneeArray[2] = "Malina";
 
-		String[] typesArray = new String[3];
-		typesArray[0] = "Type";
-		typesArray[1] = "Bug";
-		typesArray[2] = "Feature";
+        String[] typesArray = new String[2];
+        typesArray[0] = "Bug";
+        typesArray[1] = "Feature";
+
+        String[] statusArray = new String[3];
+        statusArray[0] = "Started";
+        statusArray[1] = "Rejected";
+        statusArray[2] = "Finished";
 
 		Spinner typeSpinner = (Spinner) findViewById(R.id.type);
 		ArrayAdapter<String> typeSpinnerAdapter = new ArrayAdapter<String>(
 				this, R.layout.spinner_item, R.id.spinner_item, typesArray);
 		typeSpinner.setAdapter(typeSpinnerAdapter);
 
-		Spinner assigneeSpinner = (Spinner) findViewById(R.id.assignee);
-		ArrayAdapter<String> assigneeSpinnerAdapter = new ArrayAdapter<String>(
-				this, R.layout.spinner_item, R.id.spinner_item, assigneeArray);
-		assigneeSpinner.setAdapter(assigneeSpinnerAdapter);
+        Spinner assigneeSpinner = (Spinner) findViewById(R.id.assignee);
+        ArrayAdapter<String> assigneeSpinnerAdapter = new ArrayAdapter<String>(
+                this, R.layout.spinner_item, R.id.spinner_item, assigneeArray);
+        assigneeSpinner.setAdapter(assigneeSpinnerAdapter);
+
+        Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpinner);
+        ArrayAdapter<String> statusSpinnerAdapter = new ArrayAdapter<String>(
+                this, R.layout.spinner_item, R.id.spinner_item, statusArray);
+        statusSpinner.setAdapter(statusSpinnerAdapter);
 
 		Button save = (Button) findViewById(R.id.save);
 
-		save.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Context context = getApplicationContext();
-				CharSequence text = "Task is saved!";
-				int duration = Toast.LENGTH_SHORT;
-
-				Toast toast = Toast.makeText(context, text, duration);
-				toast.show();
-				//future functionality, non needed now
-				/*
-				EditText title = (EditText) findViewById(R.id.title);
-				Spinner assignee = (Spinner) findViewById(R.id.assignee);
-				DatePicker deadline = (DatePicker) findViewById(R.id.deadline);
-				Spinner type = (Spinner) findViewById(R.id.type);
-				RadioGroup radioPriority = (RadioGroup) findViewById(R.id.radioPriority);
-				EditText description = (EditText) findViewById(R.id.description);
-
-				String deadlineString = deadline.toString();
-				System.out.println(deadlineString);
-				*/
-			}
-		});
 	
 	}
 }
