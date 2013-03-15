@@ -4,10 +4,35 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World, MyActivity"
-            />
+        <!-- 
+    <include
+        android:id="@+id/id_main_main"
+        layout="@menu/main_menu_activity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         />
+          -->
+
+    <include
+        android:id="@+id/id_main_main"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/add_task" />
+
+    <RelativeLayout
+        android:id="@+id/id_main_tasklist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" 
+        android:background="#555"
+        >
+        </RelativeLayout>
+
 </LinearLayout>
 

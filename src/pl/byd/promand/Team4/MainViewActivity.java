@@ -1,45 +1,40 @@
-package pl.byd.promand.Team4.activitylist;
+package pl.byd.promand.Team4;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
-import pl.byd.promand.Team4.R;
+import pl.byd.promand.Team4.activitylist.ITaskListItem;
+import pl.byd.promand.Team4.activitylist.TaskListAdapter;
+import pl.byd.promand.Team4.activitylist.TaskListSeparator;
 import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
-
-import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.util.Log;
 import android.view.View;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.*;
+import android.widget.ListView;
 
-public class TaskListActivity extends ListActivity {
-	
-	
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+
+public class MainViewActivity extends SherlockListActivity {
 	
 	// Keep this list sorted!
-	private List<ITaskListItem> tasksList; //  = new ArrayList<Task>();
+	private List<ITaskListItem> tasksList = new ArrayList<ITaskListItem>();
 	
 	private static int counter = 1;
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.main_menu_activity, menu);
+		return true;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		tasksList = new ArrayList<ITaskListItem>();
 		populateWithTestData(tasksList);
 		populateWithTestData(tasksList); // more items
 		addSeparators(tasksList);
