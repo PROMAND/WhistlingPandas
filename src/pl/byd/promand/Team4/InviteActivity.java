@@ -31,7 +31,7 @@ public class InviteActivity extends SherlockActivity {
 		buttonSend.setOnClickListener(new OnClickListener() {
  
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) { //
  
 			  String to = textTo.getText().toString();
 			  String subject = textSubject.getText().toString();
