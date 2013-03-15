@@ -12,12 +12,15 @@ import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class MainViewActivity extends SherlockListActivity {
 	
@@ -25,6 +28,36 @@ public class MainViewActivity extends SherlockListActivity {
 	private List<ITaskListItem> tasksList = new ArrayList<ITaskListItem>();
 	
 	private static int counter = 1;
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.addTask:
+            Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
+            startActivity(addTaskActivity);
+			return true;
+		case R.id.allTasks:
+            Intent allTasks =new Intent(MainViewActivity.this, MainViewActivity.class);
+            startActivity(allTasks);
+			return true;
+		case R.id.myTasks:
+			return true;
+		case R.id.invite:
+            Intent inviteActivity =new Intent(MainViewActivity.this, InviteActivity.class);
+            startActivity(inviteActivity);
+			return true;
+		case R.id.settings:
+            Intent i=new Intent(MainViewActivity.this, PropertiesActivity.class);
+            startActivity(i);
+			return true;
+		case R.id.refresh:
+			System.out.println("refresh");
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
