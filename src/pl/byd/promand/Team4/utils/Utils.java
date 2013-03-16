@@ -7,9 +7,13 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import android.widget.RadioGroup;
 
 import pl.byd.promand.Team4.activitylist.ITaskListItem;
 import pl.byd.promand.Team4.activitylist.TaskListSeparator;
+import pl.byd.promand.Team4.domain.Project;
 import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
@@ -17,10 +21,12 @@ import pl.byd.promand.Team4.domain.TaskType;
 
 public class Utils {
 	
-	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.mm.yyyyy");
+	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyyy");
 	
 	// Counter for test tasks population
 	private static int counter = 1;
+	
+	private static Random r = new Random();
 	
 	public static SimpleDateFormat getDateformatter() {
 		return dateFormatter;
@@ -40,8 +46,23 @@ public class Utils {
 			for (TaskPriority priority : TaskPriority.values()) {
 				for (TaskState state : TaskState.values()) {
 				String name = state + " - " + priority + " " + counter;
+				Calendar cal = Calendar.getInstance();
+				
+				int year = cal.get(Calendar.YEAR) - r.nextInt(5);
+				int month = r.nextInt(11);
+				int date = r.nextInt(27);
+
+		        cal.set(Calendar.YEAR, year);
+		        cal.set(Calendar.MONTH, month);
+		        cal.set(Calendar.DATE, date);
+				/*
+				long diff = 100000 * (type.ordinal() + 1) * (priority.ordinal() + 1) * (state.ordinal());
+				long newTime = cal.getTimeInMillis() - diff;
+				cal.setTimeInMillis(newTime);//.add(Calendar.DAY_OF_MONTH, -diff );
+		        */
+				Date deadLine = cal.getTime();
 				Task task = new Task(name , "Person " + counter, "Description " + counter, Calendar
-						.getInstance().getTime(), Calendar.getInstance().getTime(),
+						.getInstance().getTime(), deadLine ,
 						priority, type, state);
 				paramList.add(task);
 				counter++;
@@ -73,12 +94,12 @@ public class Utils {
 					separators.add(TaskListSeparator.SEPARATOR_FINISHED);
 				}
 				break;
-			case IP:
+			case S:
 				if (!separators.contains(TaskListSeparator.SEPARATOR_IN_PROGRESS)) {
 					separators.add(TaskListSeparator.SEPARATOR_IN_PROGRESS);
 				}
 				break;
-			case R:
+			case RE:
 				if (!separators.contains(TaskListSeparator.SEPARATOR_REJECTED)) {
 					separators.add(TaskListSeparator.SEPARATOR_REJECTED);
 				}
@@ -94,6 +115,17 @@ public class Utils {
 		separators.add(TaskListSeparator.SEPARATOR_REJECTED);
 		*/
 		tasksList2.addAll(separators);
+	}
+
+	public static Project getTestProject() {
+		String projectName = "UI revamp";
+		List<String> membersList = new ArrayList<String>();
+		membersList.add("Kristjan");
+		membersList.add("Macija");
+		membersList.add("Gitautas");
+		membersList.add("Alina");
+		Project ret = new Project(projectName, membersList, membersList.get(0));
+		return ret;
 	}
 
 }

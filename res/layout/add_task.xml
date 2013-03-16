@@ -32,12 +32,12 @@
 
             <TextView
                     style="@style/label"
-                    android:id="@+id/status"
-                    android:text="Status"
+                    android:id="@+id/state"
+                    android:text="State"
                     />
 
             <Spinner
-                    android:id="@+id/statusSpinner"
+                    android:id="@+id/stateSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"/>
@@ -93,6 +93,7 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal" >
 
+<!-- 
                 <RadioButton
                     android:id="@+id/priorityLow"
                     android:layout_width="wrap_content"
@@ -101,7 +102,6 @@
                     android:layout_marginRight="15dp"
                     android:text="Low"
                     android:textSize="15dp" />
-
                 <RadioButton
                     android:id="@+id/priorityMedium"
                     android:layout_width="wrap_content"
@@ -116,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:text="High"
                     android:textSize="15dp" />
+                     -->
             </RadioGroup>
             <TextView
                     style="@style/label"

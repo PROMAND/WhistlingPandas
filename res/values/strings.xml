@@ -4,4 +4,19 @@
     <string name="allTasks">All tasks</string>
     <string name="myTasks">My Tasks</string>
     <string name="tapToViewTasks">Tap here to view tasks</string>
+    
+    <!-- Task types -->
+    <string name="tasktype_bug">Bug</string>
+    <string name="tasktype_feature">Feature</string>
+    
+    <!-- Task states -->
+    <string name="taskstate_started">Started</string>
+    <string name="taskstate_assigned">Assigned</string>
+    <string name="taskstate_rejected">Rejected</string>
+    <string name="taskstate_finished">Finished</string>
+    
+    <!-- Task priorities -->
+    <string name="taskpriority_low">Low</string>
+    <string name="taskpriority_medium">Medium</string>
+    <string name="taskpriority_high">High</string>
 </resources>

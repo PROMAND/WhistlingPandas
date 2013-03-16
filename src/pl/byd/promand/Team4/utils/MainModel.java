@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import pl.byd.promand.Team4.activitylist.ITaskListItem;
+import pl.byd.promand.Team4.domain.Project;
 
 /**
  * 
@@ -20,12 +21,15 @@ public class MainModel {
 	// Keep this list sorted!
 	private List<ITaskListItem> tasksList = new ArrayList<ITaskListItem>();
 	
+	private Project project;
+	
 	/**
 	 * Singleton instance
 	 */
 	private static MainModel _instance = new MainModel();
 	
 	private MainModel() {
+		project = Utils.getTestProject();
 		Utils.populateWithTestData(tasksList);
 		Utils.populateWithTestData(tasksList); // more items
 		Utils.addSeparators(tasksList);
@@ -38,6 +42,10 @@ public class MainModel {
 	
 	public static MainModel getInstance() {
 		return _instance;
+	}
+	
+	public Project getProject() {
+		return project;
 	}
 
 }

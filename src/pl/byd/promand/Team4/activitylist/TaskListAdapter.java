@@ -9,6 +9,7 @@ import pl.byd.promand.Team4.R.id;
 import pl.byd.promand.Team4.R.layout;
 import pl.byd.promand.Team4.domain.Task;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,9 @@ public class TaskListAdapter extends ArrayAdapter<ITaskListItem> {
 			// Deadline
 			TextView tvDeadline = (TextView) rowView
 					.findViewById(R.id.id_deadline);
-			tvDeadline.setText(currentTask.getFormattedDeadline());
+			String deadLineString = currentTask.getFormattedDeadline();
+			// Log.i("deadline", deadLineString);
+			tvDeadline.setText(deadLineString);
 
 			// Deadline
 			LinearLayout tvPriority = (LinearLayout) rowView

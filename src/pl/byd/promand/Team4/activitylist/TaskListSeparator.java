@@ -9,9 +9,9 @@ public class TaskListSeparator implements ITaskListItem {
 	// Assigned
 	SEPARATOR_ASSIGNED = new TaskListSeparator("Assigned", TaskState.A),
 			// In progress
-			SEPARATOR_IN_PROGRESS = new TaskListSeparator("In progress", TaskState.IP),
+			SEPARATOR_IN_PROGRESS = new TaskListSeparator("In progress", TaskState.S),
 			SEPARATOR_FINISHED = new TaskListSeparator("Finished", TaskState.F),
-			SEPARATOR_REJECTED = new TaskListSeparator("Rejected", TaskState.R);
+			SEPARATOR_REJECTED = new TaskListSeparator("Rejected", TaskState.RE);
 
 	private final String separationText;
 	
