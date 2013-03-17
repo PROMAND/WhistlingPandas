@@ -36,6 +36,15 @@ public class PropertiesActivity extends SherlockActivity {
 		updates[2] = "10 minutes";
 		updates[3] = "15 minutes";
 
+
+        Button cancel=(Button)findViewById(R.id.cancelProperties);
+        cancel.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                PropertiesActivity.this.finish();
+            }
+        });
+
+
 		Spinner projectsSpinner = (Spinner) findViewById(R.id.currentProject);
 		ArrayAdapter<String> projectsSpinnerAdapter = new ArrayAdapter<String>(
 				this, R.layout.spinner_item, R.id.spinner_item, projects);

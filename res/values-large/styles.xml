@@ -25,11 +25,66 @@
         <item name="android:textSize">40dp</item>
     </style>
 
+    <style name="loginInput" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textSize">40dp</item>
+    </style>
 
     <style name="button" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_marginLeft">60dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">40dp</item>
+        <item name="android:textColor">#000</item>
         <item name="android:layout_marginRight">60dp</item>
+    </style>
+
+    <style name="taskType" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">60dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+    <style name="taskTitle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">80dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="priorityValue" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+
+
+    <style name="spinnerItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">60dp</item>
+    </style>
+
+    <style name="textArea" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_height">120dp</item>
+        <item name="android:textSize">40dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:ems">10</item>
+        <item name="android:gravity">top</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:inputType">textMultiLine</item>
+    </style>
+
+    <style name="menuItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">60dp</item>
+    </style>
+
+
+    <style name="loginPic" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">218dp</item>
+        <item name="android:layout_height">174dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">20dp</item>
     </style>
 
 </resources>

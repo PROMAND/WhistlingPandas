@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/imageView"
+            style="@style/loginPic"
+            android:src="@drawable/loginpicture"
+            android:layout_marginTop="10dp"/>
+    <TextView
+            style="@style/label"
+            android:text="Project Account:"
+            android:id="@+id/textView"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+    <EditText
+            style="@style/loginInput"
+            android:id="@+id/Login"
+            android:layout_gravity="center"
+            android:hint="LOGIN"/>
+
+    <TextView
+            style="@style/label"
+            android:text="Password:"
+            android:id="@+id/textView1"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+    <EditText
+            style="@style/loginInput"
+            android:inputType="textPassword"
+            android:id="@+id/editText"
+            android:layout_gravity="center"
+            android:hint="PASSWORD"/>
+    <Button
+            style="@style/button"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:id="@+id/button"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+</LinearLayout>
