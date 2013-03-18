@@ -29,11 +29,12 @@ public class MainModel {
 	private static MainModel _instance = new MainModel();
 	
 	private MainModel() {
-		project = Utils.getTestProject();
 		Utils.populateWithTestData(tasksList);
 		Utils.populateWithTestData(tasksList); // more items
 		Utils.addSeparators(tasksList);
 		Collections.sort(tasksList);
+
+		project = Utils.getTestProject();
 	}
 	
 	public List<ITaskListItem> getTasksList() {
