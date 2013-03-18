@@ -36,7 +36,7 @@
         android:gravity="top"
         android:inputType="textMultiLine"
         android:lines="5"
-        android:text="George R.R.Matrin invites you to join @currentProjectAccount. "
+        android:text="George R.R.Martin invites you to join @currentProjectAccount on twitter.com!"
         android:textSize="38sp" />
 
     <RelativeLayout
@@ -62,7 +62,7 @@
             android:textSize="38sp" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/cancelInvite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

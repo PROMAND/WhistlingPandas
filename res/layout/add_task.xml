@@ -18,7 +18,9 @@
                 style="@style/pageTitle"
                 android:id="@+id/textView1"
                 android:text="New task"
-                 />
+                 >
+                <requestFocus />
+            </TextView>
 
             <TextView
                     style="@style/label"
@@ -26,7 +28,8 @@
                     android:text="Task title"
                     />
             <EditText
-                style="@style/taskTitle"
+                style="@style/label"
+                android:layout_width="fill_parent"
                 android:id="@+id/title"
                 android:selectAllOnFocus="false"/>
 
@@ -88,20 +91,21 @@
 
             <RadioGroup
                 android:id="@+id/radioPriority"
+                android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal" >
-
-<!-- 
+                <!--
                 <RadioButton
                     android:id="@+id/priorityLow"
+                    style="@style/priorityValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:text="Low"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:text="Low" />
                 <RadioButton
                     android:id="@+id/priorityMedium"
                     android:layout_width="wrap_content"
@@ -116,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:text="High"
                     android:textSize="15dp" />
-                     -->
+                   -->
             </RadioGroup>
             <TextView
                     style="@style/label"
@@ -126,40 +130,29 @@
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginBottom="10dp"
-                android:ems="10"
-                android:gravity="top"
-                android:includeFontPadding="false"
-                android:inputType="textMultiLine"
-                android:textSize="20dp" >
+                style="@style/textArea"
+            />
 
-                <requestFocus />
-            </EditText>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                <Button
+                        android:id="@+id/save"
+                        style="@style/button"
+                        android:text="Save" />
+
+                <Button
+                        android:id="@+id/cancelAdd"
+                        style="@style/button"
+                        android:layout_alignParentRight="true"
+                        android:text="Cancel" />
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        >
-
-        <Button
-            android:id="@+id/save"
-            style="@style/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save" />
-
-        <Button
-            android:id="@+id/cancel"
-            style="@style/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Cancel" />
-
-    </RelativeLayout>
 
 </LinearLayout>

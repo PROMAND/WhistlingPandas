@@ -50,6 +50,13 @@ public class AddTaskActivity extends SherlockActivity {
 		}
 		setContentView(R.layout.add_task);
 
+
+        Button button1=(Button)findViewById(R.id.cancelAdd);
+        button1.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                AddTaskActivity.this.finish();
+            }
+        });
 		// Assignee
 		List<String> testProjectMembers = Utils.getTestProject().getMembers();
 		String[] assigneeArray = new String[testProjectMembers.size()]; //  - 1]; // Not including logged in user himself
@@ -87,7 +94,7 @@ public class AddTaskActivity extends SherlockActivity {
             RadioButton rb = new RadioButton(this);
             String priorityText = getResources().getString(item.getFormString());
             rb.setText(priorityText);
-            rb.setTextSize(15);
+            rb.setTextSize(25);
             if (task != null && item.equals(task.getPriority())) {
             	// rb.refreshDrawableState();
             	rb.setSelected(true); // TODO

@@ -21,6 +21,13 @@ public class InviteActivity extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.invitation);
+
+        Button button1=(Button)findViewById(R.id.cancelInvite);
+        button1.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                InviteActivity.this.finish();
+            }
+        });
  
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		textTo = (EditText) findViewById(R.id.editTextTo);
