@@ -13,6 +13,8 @@ import pl.byd.promand.Team4.activitylist.ITaskListItem;
 import pl.byd.promand.Team4.activitylist.TaskListSeparator;
 import pl.byd.promand.Team4.domain.Project;
 import pl.byd.promand.Team4.domain.Task;
+import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
+import pl.byd.promand.Team4.twitter.CreateTaskTweet;
 
 /**
  * 
@@ -42,8 +44,28 @@ public class MainModel {
 	}
 	
 	public List<ITaskListItem> getTasksList() {
-		List<Task> tasksAsList = new ArrayList<Task>();
+		List<Task> 
+		// tasksAsListBeforeParsing 
+		tasksAsList
+		= new ArrayList<Task>()
+		;
 		tasksAsList.addAll(tasksMap.values());
+		
+		/*
+		List<String> parsed = new ArrayList<String>();
+		for (Task cur : tasksAsListBeforeParsing) {
+			CreateTaskTweet ctt = new CreateTaskTweet(cur);
+			parsed.add(ctt.getTweet());
+		}
+
+		List<Task> tasksAsList = new ArrayList<Task>();
+		for (String cur : parsed) {
+			AbstractTaskManagerTweet task = AbstractTaskManagerTweet.parseTweet(cur);
+			CreateTaskTweet ctt = (CreateTaskTweet)task;
+			tasksAsList.add(ctt.getTask());
+		}
+		*/
+		
 		List<TaskListSeparator> separators = Utils.getSeparators(tasksAsList);
 		List<ITaskListItem> ret = new ArrayList<ITaskListItem>();
 		ret.addAll(tasksAsList);

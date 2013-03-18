@@ -47,6 +47,7 @@ public class Utils {
 	
 	public static void populateWithTestData(Map<Long, Task> tasksList) {
 		// Collection<ITaskListItem> paramList = new ArrayList<ITaskListItem>();
+		// List<String> members = MainModel.getInstance().getProject().getMembers();
 		for (TaskType type : TaskType.values()) {
 			for (TaskPriority priority : TaskPriority.values()) {
 				for (TaskState state : TaskState.values()) {
@@ -67,7 +68,7 @@ public class Utils {
 				cal.setTimeInMillis(newTime);//.add(Calendar.DAY_OF_MONTH, -diff );
 		        */
 				Date deadLine = cal.getTime();
-				Task task = new Task(name , "Assignee " + counter, "Author " + counter, "Description " + counter, Calendar
+				Task task = new Task(name , "Person " + counter, "Person " + 1, "Description " + counter, Calendar
 						.getInstance().getTime(), deadLine ,
 						priority, type, state);
 				task.setId(Long.valueOf(counter));
@@ -134,14 +135,10 @@ public class Utils {
 	public static Project getTestProject() {
 		String projectName = "UI revamp";
 		List<String> membersList = new ArrayList<String>();
-		/*
-		membersList.add("Kristjan");
-		membersList.add("Macija");
-		membersList.add("Gitautas");
-		membersList.add("Alina");
-		*/
 		for (int i = 1; i <= counter; i++) {
-			membersList.add("Person " + i);
+			String personName = "Person " + i;
+			membersList.add(personName);
+			
 		}
 		Project ret = new Project(projectName, membersList, membersList.get(0));
 		return ret;

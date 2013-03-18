@@ -32,6 +32,9 @@ public class CreateTaskTweet extends AbstractTaskManagerTweet {
 		// State
 		sb.append(Constants.SEPARATOR);
 		sb.append(getTask().getState());
+		// Type
+		sb.append(Constants.SEPARATOR);
+		sb.append(getTask().getType());
 		// Assignee
 		sb.append(Constants.SEPARATOR);
 		sb.append(getTask().getAssignee());

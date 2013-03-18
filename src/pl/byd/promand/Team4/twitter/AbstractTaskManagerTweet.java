@@ -7,6 +7,7 @@ import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
+import pl.byd.promand.Team4.utils.Constants;
 import pl.byd.promand.Team4.utils.Utils;
 
 public abstract class AbstractTaskManagerTweet {
@@ -22,7 +23,7 @@ public abstract class AbstractTaskManagerTweet {
 	}
 	
 	public static AbstractTaskManagerTweet parseTweet(String tweet) {
-		String[] strings = tweet.split(",");
+		String[] strings = tweet.split(Constants.SEPARATOR, -1);
 		TweetType type = TweetType.valueOf(strings[0]);
 		switch (type) {
 		case NP:
