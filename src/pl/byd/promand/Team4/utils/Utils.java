@@ -24,7 +24,7 @@ public class Utils {
 	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyyy");
 	
 	// Counter for test tasks population
-	private static int counter = 1;
+	private static int counter = 0;
 	
 	private static Random r = new Random();
 	
@@ -45,6 +45,7 @@ public class Utils {
 		for (TaskType type : TaskType.values()) {
 			for (TaskPriority priority : TaskPriority.values()) {
 				for (TaskState state : TaskState.values()) {
+					counter++;
 				String name = state + " - " + priority + " " + counter;
 				Calendar cal = Calendar.getInstance();
 				
@@ -65,7 +66,6 @@ public class Utils {
 						.getInstance().getTime(), deadLine ,
 						priority, type, state);
 				paramList.add(task);
-				counter++;
 				}
 			}
 		}
@@ -120,10 +120,15 @@ public class Utils {
 	public static Project getTestProject() {
 		String projectName = "UI revamp";
 		List<String> membersList = new ArrayList<String>();
+		/*
 		membersList.add("Kristjan");
 		membersList.add("Macija");
 		membersList.add("Gitautas");
 		membersList.add("Alina");
+		*/
+		for (int i = 1; i <= counter; i++) {
+			membersList.add("Person " + i);
+		}
 		Project ret = new Project(projectName, membersList, membersList.get(0));
 		return ret;
 	}
