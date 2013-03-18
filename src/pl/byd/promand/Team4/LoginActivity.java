@@ -7,6 +7,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import twitter4j.*;
+
 import com.actionbarsherlock.app.SherlockActivity;
 
 public class LoginActivity extends SherlockActivity {
@@ -38,8 +40,12 @@ public class LoginActivity extends SherlockActivity {
 		String login = txtLogin.getText().toString();
 		String password = txtPassword.getText().toString();
 		
+//		Twitter twitter = new TwitterFactory().getInstance();
+//		twitter.setOAuthConsumer("tYMXHS5dLfLG2TVCXJGBQg", "plgycHfsH6e6sou5LZHGkDMg1MlgM6gFq6YM6U38Y");
+//		twitter.setOAuthAccessToken("");
+//		
 		
-//		startActivity(new Intent(LoginActivity.this, MainViewActivity.class));
+		startActivity(new Intent(LoginActivity.this, MainViewActivity.class));
 	}
 	
 	
