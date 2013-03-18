@@ -86,23 +86,23 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 style="@style/label"/>
             
-            <Spinner
-                    android:id="@+id/id_edittask_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:contentDescription="Priority" />
-<!-- 
             <RadioGroup
                 android:id="@+id/radioPriority"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal" >
-
             </RadioGroup>
+<!-- 
+            <Spinner
+                    android:id="@+id/id_edittask_priority"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="Priority" />
  -->
 <!-- 
+
                 <RadioButton
                     android:id="@+id/priorityLow"
                     android:layout_width="wrap_content"

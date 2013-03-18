@@ -82,15 +82,15 @@ public class AddTaskActivity extends SherlockActivity {
         Spinner stateSpinner = (Spinner) findViewById(R.id.stateSpinner);
 		TaskStateAdapter stateSpinnerAdapter = new TaskStateAdapter(this, Arrays.asList(taskStateValues),getResources());
 		stateSpinner.setAdapter(stateSpinnerAdapter);
-        
+
         // Task priority 
+		/*
         TaskPriority[] taskPriorityValues = TaskPriority.values();
         Spinner prioritySpinner = (Spinner) findViewById(R.id.id_edittask_priority);
 		TaskPriorityAdapter prioritySpinnerAdapter = new TaskPriorityAdapter(this, Arrays.asList(taskPriorityValues),getResources());
 		prioritySpinner.setAdapter(prioritySpinnerAdapter);
-		
-		/*
-		 * the code below doesn't work
+		*/
+		// the code below doesn't work
         RadioGroup rg = (RadioGroup) findViewById(R.id.radioPriority);
         TaskPriority[] taskPriorityValues = TaskPriority.values();
         for (TaskPriority item : taskPriorityValues) {
@@ -99,13 +99,15 @@ public class AddTaskActivity extends SherlockActivity {
             rb.setText(priorityText);
             rb.setTextSize(15);
             if (task != null && item.equals(task.getPriority())) {
+            	// Log.i("priority", "OK!");
             	// rb.refreshDrawableState();
-            	rb.setSelected(true); // TODO
+            	// rb.setSelected(true); // TODO
+            	rb.setChecked(true);
             }
             rg.addView(rb);
         }
         rg.setSelected(true);
-        */
+        
         
         // Task deadline
         DatePicker deadlinePicker=(DatePicker) findViewById(R.id.deadline);
@@ -121,7 +123,7 @@ public class AddTaskActivity extends SherlockActivity {
         	
     		typeSpinner.setSelection(task.getType().ordinal());
             stateSpinner.setSelection(task.getState().ordinal());
-            prioritySpinner.setSelection(task.getPriority().ordinal());
+            // prioritySpinner.setSelection(task.getPriority().ordinal());
 
             if (assigneeArray.length > 0) {
             for (int i = 0; i < assigneeArray.length; i++) {
