@@ -46,5 +46,12 @@ public class TaskListSeparator implements ITaskListItem {
 		}
 		throw new RuntimeException("Unknown task item class: " + another.getClass().getCanonicalName());
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("==").append(getSeparationText()).append("==");
+		return sb.toString();
+	}
 
 }

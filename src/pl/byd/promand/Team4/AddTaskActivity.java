@@ -126,9 +126,12 @@ public class AddTaskActivity extends SherlockActivity {
             // prioritySpinner.setSelection(task.getPriority().ordinal());
 
             if (assigneeArray.length > 0) {
+            	Log.i("Assignee", "task assignee" + task.getAssignee());
             for (int i = 0; i < assigneeArray.length; i++) {
             	String cur = assigneeArray[i];
+            	Log.i("Assignee", cur);
             	if (cur.equals(task.getAssignee())) {
+                	Log.i("Assignee", "selection=" + i);
             		assigneeSpinner.setSelection(i);
             	}
             }	
