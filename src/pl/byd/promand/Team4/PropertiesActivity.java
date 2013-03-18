@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import android.preference.*;
+import android.content.SharedPreferences;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
@@ -15,6 +17,8 @@ public class PropertiesActivity extends PreferenceActivity {
 	/**
 	 * Called when the activity is first created.
 	 */
+    private SharedPreferences sp;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,64 +30,73 @@ public class PropertiesActivity extends PreferenceActivity {
         projects[0] = "PROMAND";
         projects[1] = "Whistling pandas";
 
+        sp = getApplicationContext().getSharedPreferences("setting", 0);
 
-        String[] updates = new String[5];
-        updates[0] = "1 minutes";
-        updates[1] = "5 minutes";
-        updates[2] = "10 minutes";
-        updates[3] = "15 minutes";
-        updates[4] = "20 minutes";
-
-
-        ListPreference projectsPref = (ListPreference) findPreference("currentProject");//new ListPreference(this);
-        projectsPref.setKey("keyName"); //Refer to get the pref value
+        ListPreference projectsPref = (ListPreference) findPreference("currentProject");
         projectsPref.setEntries(projects);
         projectsPref.setEntryValues(projects);
-        projectsPref.setTitle("Set current project");
-        projectsPref.setSummary("Project which be preloaded as soon as application starts");
-
-
-        ListPreference updatesPref = (ListPreference) findPreference("updates");//new ListPreference(this);
-        updatesPref.setKey("keyName"); //Refer to get the pref value
-        updatesPref.setEntries(updates);
-        updatesPref.setEntryValues(updates);
-        updatesPref.setTitle("Updates");
-        updatesPref.setSummary("How frequently updates should be checked on server");
-          /*
-        Button cancel=(Button)findViewById(R.id.cancelProperties);
-        cancel.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                PropertiesActivity.this.finish();
+        projectsPref.setTitle(R.string.projectOptions);
+        String projectValue = sp.getString("projects", getString(R.string.notSet));
+        projectsPref.setSummary(projectValue);
+        if (projectValue != null) {
+            projectsPref.setValue(projectValue);
+        }
+        projectsPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                preference.setSummary(o.toString());
+                return false;
             }
         });
 
-		Spinner projectsSpinner = (Spinner) findViewById(R.id.currentProject);
-		ArrayAdapter<String> projectsSpinnerAdapter = new ArrayAdapter<String>(
-				this, R.layout.spinner_item, R.id.spinner_item, projects);
-		projectsSpinner.setAdapter(projectsSpinnerAdapter);
+        ListPreference updatesPref = (ListPreference) findPreference("updates");
+        updatesPref.setEntries(R.array.updatesOptions);
+        updatesPref.setEntryValues(R.array.updatesOptionsValues);
+        updatesPref.setTitle(R.string.updatesOptions);
+        String updateValue = sp.getString("updateTime", getString(R.string.notSet));
+        updatesPref.setSummary(updateValue);
+        if (updateValue != "") {
+             updatesPref.setValue(updateValue);
+        }
+        updatesPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                preference.setSummary(o.toString());
+                return false;
+            }
+        });
 
+        CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference("wifiUpdate");
+        boolean wifiValue = sp.getBoolean("wifiValue", true);
+        wifiPref.setChecked(wifiValue);
 
-		Spinner updatesSpinner = (Spinner) findViewById(R.id.updates);
-		ArrayAdapter<String> updatesSpinnerAdapter = new ArrayAdapter<String>(
-				this, R.layout.spinner_item, R.id.spinner_item, updates);
-		updatesSpinner.setAdapter(updatesSpinnerAdapter);
-
-          */
-		/*
-        Button save = (Button) findViewById(R.id.saveProperties);
-		save.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Context context = getApplicationContext();
-				CharSequence text = "Changes are saved!";
-				int duration = Toast.LENGTH_SHORT;
-				
-				Toast toast = Toast.makeText(context, text, duration);
-				toast.show();
-			}
-		});
-		*/
-	
+        CheckBoxPreference notifyPref = (CheckBoxPreference) findPreference("taskNotification");
+        boolean notifyValue = sp.getBoolean("notifyValue", false);
+        notifyPref.setChecked(notifyValue);
 	}
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        SharedPreferences.Editor edit = sp.edit();
+
+        ListPreference projectsPref = (ListPreference) findPreference("currentProject");
+        String projectValue = projectsPref.getValue();
+        edit.putString("projects", projectValue);
+
+        ListPreference updatePref = (ListPreference) findPreference("updates");
+        String updateValue = updatePref.getValue();
+        edit.putString("updateTime", updateValue);
+
+        CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference("wifiUpdate");
+        boolean wifiValue = wifiPref.isChecked();
+        edit.putBoolean("wifiValue", wifiValue);
+
+        CheckBoxPreference notifyPref = (CheckBoxPreference) findPreference("taskNotification");
+        boolean notifyValue = wifiPref.isChecked();
+        edit.putBoolean("notifyValue", notifyValue);
+
+        edit.commit();
+    }
 }

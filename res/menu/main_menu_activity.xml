@@ -47,7 +47,7 @@
                 style="@style/menuItem"
                 android:title="Send invite"/>
             <item
-                android:id="@+id/settings"
+                android:id="@+id/settingsView"
                 style="@style/menuItem"
                 android:title="Project settings"/>
         </menu>

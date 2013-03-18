@@ -8,30 +8,24 @@
     <PreferenceCategory
             android:summary="Change settings"
             android:title="Settings" >
+
         <ListPreference
                 android:id="@+id/currentProject"
-                android:key="currentProject"
-                android:summary=""
-                android:title="" />
+                android:key="currentProject"/>
 
         <ListPreference
                 android:id="@+id/updates"
-                android:key="updates"
-                android:summary="How frequent updates should be checked on server"
-                android:title="Updates" />
+                android:key="updates" />
 
         <CheckBoxPreference
                 android:id="@+id/wifiUpdate"
-                android:key="checkBox"
-                android:summary="Update data only when Wifi connection is avalible"
-                android:title="WiFi settings" />
+                android:key="wifiUpdate"
+                android:title="Update data only when Wifi connection is available"/>
 
         <CheckBoxPreference
                 android:id="@+id/taskNotification"
-                android:key="checkBox"
-                android:summary="Notify when new task is added"
-                android:title="Notifications" />
-
+                android:key="taskNotification"
+                android:title="Notify when new task is added" />
 
     </PreferenceCategory>
 </PreferenceScreen >

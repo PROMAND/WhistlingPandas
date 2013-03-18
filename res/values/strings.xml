@@ -19,4 +19,9 @@
     <string name="taskpriority_low">Low</string>
     <string name="taskpriority_medium">Medium</string>
     <string name="taskpriority_high">High</string>
+
+    <!-- Project options -->
+    <string name="updatesOptions">How frequently updates should be checked on server</string>
+    <string name="notSet">Not set</string>
+    <string name="projectOptions">Set current project</string>
 </resources>
