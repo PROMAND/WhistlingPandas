@@ -21,8 +21,9 @@ import pl.byd.promand.Team4.utils.Utils;
  *
  */
 public class Task implements ITaskListItem, Parcelable {
+	// TODO ask task id
 
-	private String title, assignee, description;
+	private String title, assignee, creator, description;
 	
 	private Date created, deadLine;
 	
@@ -31,18 +32,29 @@ public class Task implements ITaskListItem, Parcelable {
 	private TaskType type;
 	
 	private TaskState state;
+	
+	private Long id;
 
-	public Task(String title, String assignee, String description,
+	public Task(String title, String assignee, String creator, String description,
 			Date created, Date deadLine, TaskPriority priority, TaskType type, TaskState state) {
 		super();
 		this.title = title;
 		this.assignee = assignee;
+		this.creator = creator;
 		this.description = description;
 		this.created = created;
 		this.deadLine = deadLine;
 		this.priority = priority;
 		this.type = type;
 		this.state = state;
+	}
+
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	@Override
@@ -171,6 +183,14 @@ public class Task implements ITaskListItem, Parcelable {
 	public void setState(TaskState state) {
 		this.state = state;
 	}
+	
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	
+	public String getCreator() {
+		return creator;
+	}
 
 	public String getFormattedDeadline() {
 		String ret = Utils.convertToString(getDeadLine());
@@ -223,29 +243,32 @@ public class Task implements ITaskListItem, Parcelable {
         dest.writeStringArray(new String[] {
         		this.getTitle(), // Index 0
         		this.getAssignee(), // 1
-        		this.getDescription(), // 2
-        		this.getPriority().toString(), // 3
-        		this.getType().toString(), // 4
-        		this.getState().toString(), // 5
-        		Utils.convertToString(getCreated()), // 6
-        		Utils.convertToString(getDeadLine()), // 7
+        		this.getCreator(), // 2
+        		this.getDescription(), // 3
+        		this.getPriority().toString(), // 4
+        		this.getType().toString(), // 5
+        		this.getState().toString(), // 6
+        		Utils.convertToString(getCreated()), // 7
+        		Utils.convertToString(getDeadLine()), // 8
         });
 	}
 	
     public Task(Parcel in){
-        String[] data = new String[8];
+        String[] data = new String[9];
         in.readStringArray(data);
-        this.title = data[0];
-        this.assignee = data[1];
-        this.description = data[2];
-        this.priority = TaskPriority.valueOf(data[3]);
-        this.type = TaskType.valueOf(data[4]);
-        this.state = TaskState.valueOf(data[5]);
-		this.created = Utils.parseDateFromString(data[6]);
-	    this.deadLine = Utils.parseDateFromString(data[7]);
+        int idx = 0;
+        this.title = data[idx++];
+        this.assignee = data[idx++];
+        this.creator = data[idx++];
+        this.description = data[idx++];
+        this.priority = TaskPriority.valueOf(data[idx++]);
+        this.type = TaskType.valueOf(data[idx++]);
+        this.state = TaskState.valueOf(data[idx++]);
+		this.created = Utils.parseDateFromString(data[idx++]);
+	    this.deadLine = Utils.parseDateFromString(data[idx++]);
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Task createFromParcel(Parcel in) {
             return new Task(in); 
         }

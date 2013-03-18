@@ -1,9 +1,16 @@
 package pl.byd.promand.Team4.twitter;
 
-import pl.byd.promand.Team4.domain.Task;
-import pl.byd.promand.Team4.domain.TaskType;
+import java.util.Date;
 
-public class CreateTaskTweet extends TaskTweet {
+import pl.byd.promand.Team4.domain.Task;
+import pl.byd.promand.Team4.domain.TaskPriority;
+import pl.byd.promand.Team4.domain.TaskState;
+import pl.byd.promand.Team4.domain.TaskType;
+import pl.byd.promand.Team4.utils.Constants;
+import pl.byd.promand.Team4.utils.MainModel;
+import pl.byd.promand.Team4.utils.Utils;
+
+public class CreateTaskTweet extends AbstractTaskManagerTweet {
 
 	private final Task task;
 
@@ -14,6 +21,33 @@ public class CreateTaskTweet extends TaskTweet {
 	
 	public Task getTask() {
 		return task;
+	}
+	
+	public String getTweet() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getType());
+		// Priority
+		sb.append(Constants.SEPARATOR);
+		sb.append(getTask().getPriority());
+		// State
+		sb.append(Constants.SEPARATOR);
+		sb.append(getTask().getState());
+		// Assignee
+		sb.append(Constants.SEPARATOR);
+		sb.append(getTask().getAssignee());
+		// Creator
+		sb.append(Constants.SEPARATOR);
+		sb.append(MainModel.getInstance().getProject().getYourself());
+		// Deadline
+		sb.append(Constants.SEPARATOR);
+		sb.append(getTask().getFormattedDeadline());
+		// Title
+		sb.append(Constants.SEPARATOR);
+		sb.append(getTask().getTitle());
+		// Description
+		sb.append(Constants.SEPARATOR);
+		sb.append(getTask().getDescription());
+		return sb.toString();
 	}
 
 }

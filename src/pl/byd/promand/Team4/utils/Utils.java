@@ -67,11 +67,12 @@ public class Utils {
 				cal.setTimeInMillis(newTime);//.add(Calendar.DAY_OF_MONTH, -diff );
 		        */
 				Date deadLine = cal.getTime();
-				Task task = new Task(name , "Person " + counter, "Description " + counter, Calendar
+				Task task = new Task(name , "Assignee " + counter, "Author " + counter, "Description " + counter, Calendar
 						.getInstance().getTime(), deadLine ,
 						priority, type, state);
+				task.setId(Long.valueOf(counter));
 				// paramList.add(task);
-				tasksList.put(Long.valueOf(counter), task);
+				tasksList.put(task.getId(), task);
 				}
 			}
 		}

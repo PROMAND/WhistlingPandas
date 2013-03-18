@@ -1,6 +1,6 @@
 package pl.byd.promand.Team4.twitter;
 
-public class AddMemberTweet extends TaskTweet {
+public class AddMemberTweet extends AbstractTaskManagerTweet {
 	
 	private final String memberName;
 	
