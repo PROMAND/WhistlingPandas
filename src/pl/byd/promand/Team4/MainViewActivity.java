@@ -76,11 +76,14 @@ public class MainViewActivity extends SherlockListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Task selectedValue = (Task) getListAdapter().getItem(position);
+		Object selectedInstance = getListAdapter().getItem(position);
+		if (selectedInstance instanceof Task) {
+		Task selectedValue = (Task) selectedInstance;
 		// Toast.makeText(this, selectedValue.getTitle(), Toast.LENGTH_SHORT).show();
         Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
         addTaskActivity.putExtra(Constants.INTENT_EXTRA_TASK, selectedValue);
         startActivity(addTaskActivity);
+		}
 	}
 	
 	

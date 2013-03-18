@@ -1,11 +1,18 @@
 package pl.byd.promand.Team4.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import android.util.Log;
 
 import pl.byd.promand.Team4.activitylist.ITaskListItem;
+import pl.byd.promand.Team4.activitylist.TaskListSeparator;
 import pl.byd.promand.Team4.domain.Project;
+import pl.byd.promand.Team4.domain.Task;
 
 /**
  * 
@@ -19,7 +26,7 @@ import pl.byd.promand.Team4.domain.Project;
 public class MainModel {
 	
 	// Keep this list sorted!
-	private List<ITaskListItem> tasksList = new ArrayList<ITaskListItem>();
+	private Map<Long, Task> tasksMap = new HashMap<Long, Task>();
 	
 	private Project project;
 	
@@ -29,16 +36,20 @@ public class MainModel {
 	private static MainModel _instance = new MainModel();
 	
 	private MainModel() {
-		Utils.populateWithTestData(tasksList);
-		Utils.populateWithTestData(tasksList); // more items
-		Utils.addSeparators(tasksList);
-		Collections.sort(tasksList);
-
+		Utils.populateWithTestData(tasksMap);
+		Utils.populateWithTestData(tasksMap); // more items
 		project = Utils.getTestProject();
 	}
 	
 	public List<ITaskListItem> getTasksList() {
-		return tasksList;
+		List<Task> tasksAsList = new ArrayList<Task>();
+		tasksAsList.addAll(tasksMap.values());
+		List<TaskListSeparator> separators = Utils.getSeparators(tasksAsList);
+		List<ITaskListItem> ret = new ArrayList<ITaskListItem>();
+		ret.addAll(tasksAsList);
+		ret.addAll(separators);
+		Collections.sort(ret);
+		return ret;
 	}
 	
 	public static MainModel getInstance() {

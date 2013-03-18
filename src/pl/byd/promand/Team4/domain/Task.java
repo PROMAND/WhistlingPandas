@@ -45,6 +45,45 @@ public class Task implements ITaskListItem, Parcelable {
 		this.state = state;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Task[");
+
+		// priority
+		sb.append("state=");
+		sb.append(getState());
+		sb.append(", ");
+		
+		// priority
+		sb.append("priority=");
+		sb.append(getPriority());
+		sb.append(", ");
+/*		
+		// title
+		sb.append("title=");
+		sb.append(getTitle());
+		sb.append(", ");
+		
+		// assignee
+		sb.append("assignee=");
+		sb.append(getAssignee());
+		sb.append(", ");
+		
+		// type
+		sb.append("type=");
+		sb.append(getType());
+		sb.append(", ");
+		
+		// priority
+		sb.append("deadline=");
+		sb.append(getFormattedDeadline());
+		sb.append(", ");
+	*/	
+		sb.append("]");
+		return sb.toString();
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -145,7 +184,7 @@ public class Task implements ITaskListItem, Parcelable {
 			TaskListSeparator anotherSeparator = (TaskListSeparator)another;
 			int diff = thisState - anotherSeparator.getState().ordinal();
 			if (Math.abs(diff) > 0) {
-			diff = -diff;
+			// diff = -diff;
 			return  diff;
 			}
 			return +1;
@@ -202,12 +241,8 @@ public class Task implements ITaskListItem, Parcelable {
         this.priority = TaskPriority.valueOf(data[3]);
         this.type = TaskType.valueOf(data[4]);
         this.state = TaskState.valueOf(data[5]);
-        try {
-			this.created = Utils.parseDateFromString(data[6]);
-	        this.deadLine = Utils.parseDateFromString(data[7]);
-		} catch (ParseException e) {
-			throw new RuntimeException("Parsing date failed", e);
-		}
+		this.created = Utils.parseDateFromString(data[6]);
+	    this.deadLine = Utils.parseDateFromString(data[7]);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

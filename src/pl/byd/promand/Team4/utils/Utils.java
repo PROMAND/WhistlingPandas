@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import android.widget.RadioGroup;
@@ -21,7 +22,7 @@ import pl.byd.promand.Team4.domain.TaskType;
 
 public class Utils {
 	
-	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyyy");
+	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 	
 	// Counter for test tasks population
 	private static int counter = 0;
@@ -32,16 +33,20 @@ public class Utils {
 		return dateFormatter;
 	}
 	
-	public static Date parseDateFromString(String dateString) throws ParseException {
-		return getDateformatter().parse(dateString);
+	public static Date parseDateFromString(String dateString) {
+		try {
+			return getDateformatter().parse(dateString);
+		} catch (ParseException e) {
+			throw new RuntimeException("Parsing date failed", e);
+		}
 	}
 	
 	public static String convertToString(Date date) {
 		return getDateformatter().format(date);
 	}
-
-
-	public static void populateWithTestData(Collection<ITaskListItem> paramList) {
+	
+	public static void populateWithTestData(Map<Long, Task> tasksList) {
+		// Collection<ITaskListItem> paramList = new ArrayList<ITaskListItem>();
 		for (TaskType type : TaskType.values()) {
 			for (TaskPriority priority : TaskPriority.values()) {
 				for (TaskState state : TaskState.values()) {
@@ -65,23 +70,23 @@ public class Utils {
 				Task task = new Task(name , "Person " + counter, "Description " + counter, Calendar
 						.getInstance().getTime(), deadLine ,
 						priority, type, state);
-				paramList.add(task);
+				// paramList.add(task);
+				tasksList.put(Long.valueOf(counter), task);
 				}
 			}
 		}
 	}
 
-
-	public static void addSeparators(List<ITaskListItem> tasksList2) {
+	public static List<TaskListSeparator> getSeparators(List<Task> tasksList) {
+		List<TaskListSeparator> separators = new ArrayList<TaskListSeparator>();
 		List<TaskState> states = new ArrayList<TaskState>();
-		for (ITaskListItem item : tasksList2) {
+		for (ITaskListItem item : tasksList) {
 			if (item instanceof Task) {
 				Task cur = (Task)item;
 				TaskState curState = cur.getState();
 				states.add(curState);
 			}
 		}
-		List<TaskListSeparator> separators = new ArrayList<TaskListSeparator>();
 		for (TaskState state : states) {
 			switch (state) {
 			case A:
@@ -109,12 +114,20 @@ public class Utils {
 				throw new RuntimeException("Unsupported state: " + state);
 			}
 		}
+		return separators;
+		// separators.add(TaskListSeparator.SEPARATOR_IN_PROGRESS);
+		// separators.add(TaskListSeparator.SEPARATOR_ASSIGNED);
+		// separators.add(TaskListSeparator.SEPARATOR_REJECTED);
+		
+		// tasksList2.addAll(separators);
 		/*
-		separators.add(TaskListSeparator.SEPARATOR_IN_PROGRESS);
-		separators.add(TaskListSeparator.SEPARATOR_ASSIGNED);
-		separators.add(TaskListSeparator.SEPARATOR_REJECTED);
+		for (TaskListSeparator cur: separators) {
+			int keyInt = cur.getState().ordinal() + 1;
+			keyInt = -keyInt;
+			Long key = Long.valueOf(keyInt);
+			tasksList.put(key, cur);
+		}
 		*/
-		tasksList2.addAll(separators);
 	}
 
 	public static Project getTestProject() {
