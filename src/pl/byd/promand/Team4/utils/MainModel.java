@@ -3,6 +3,7 @@ package pl.byd.promand.Team4.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +14,17 @@ import pl.byd.promand.Team4.activitylist.ITaskListItem;
 import pl.byd.promand.Team4.activitylist.TaskListSeparator;
 import pl.byd.promand.Team4.domain.Project;
 import pl.byd.promand.Team4.domain.Task;
+import pl.byd.promand.Team4.domain.TaskPriority;
+import pl.byd.promand.Team4.domain.TaskState;
+import pl.byd.promand.Team4.domain.TaskType;
 import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
 import pl.byd.promand.Team4.twitter.CreateTaskTweet;
+import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 
 /**
  * 
  * Central context for our application.
- * <br />
+ * <br /><br />
  * Singleton instance. Use <code>getInstance</code> to fetch.
  * 
  * @author veskikri
@@ -40,18 +45,20 @@ public class MainModel {
 	private MainModel() {
 		Utils.populateWithTestData(tasksMap);
 		Utils.populateWithTestData(tasksMap); // more items
+		
+		Utils.updateTasks(tasksMap);
+		
 		project = Utils.getTestProject();
 	}
 	
 	public List<ITaskListItem> getTasksList() {
 		List<Task> 
-		// tasksAsListBeforeParsing 
-		tasksAsList
+		tasksAsListBeforeParsing 
+		// tasksAsList
 		= new ArrayList<Task>()
 		;
-		tasksAsList.addAll(tasksMap.values());
+		tasksAsListBeforeParsing.addAll(tasksMap.values());
 		
-		/*
 		List<String> parsed = new ArrayList<String>();
 		for (Task cur : tasksAsListBeforeParsing) {
 			CreateTaskTweet ctt = new CreateTaskTweet(cur);
@@ -64,7 +71,6 @@ public class MainModel {
 			CreateTaskTweet ctt = (CreateTaskTweet)task;
 			tasksAsList.add(ctt.getTask());
 		}
-		*/
 		
 		List<TaskListSeparator> separators = Utils.getSeparators(tasksAsList);
 		List<ITaskListItem> ret = new ArrayList<ITaskListItem>();
@@ -74,10 +80,22 @@ public class MainModel {
 		return ret;
 	}
 	
+	/**
+	 * 
+	 * Retrieves the central context for the current project and its associated tasks
+	 * 
+	 * @return Central context
+	 */
 	public static MainModel getInstance() {
 		return _instance;
 	}
 	
+	/**
+	 * 
+	 * Retrieves current project
+	 * 
+	 * @return Project
+	 */
 	public Project getProject() {
 		return project;
 	}
