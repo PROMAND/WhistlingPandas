@@ -17,6 +17,7 @@ import pl.byd.promand.Team4.utils.TestDataPopulator;
 import com.actionbarsherlock.app.SherlockActivity;
 
 import twitter4j.DirectMessage;
+import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -71,6 +72,9 @@ public class LoginActivity extends SherlockActivity {
 		scrollView = (ScrollView) findViewById(R.id.scrollView);
 		tweetText = (TextView) findViewById(R.id.tweetText);
 		getTweetButton = (Button) findViewById(R.id.getTweet);
+		
+		this.disconnectTwitter();
+		
 		getTweetButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -90,6 +94,7 @@ public class LoginActivity extends SherlockActivity {
 				List<UpdateTaskTweet> unamrshalledUpdateTaskTweets = new ArrayList<UpdateTaskTweet>();
 				
 				ResponseList<Status> retrievedTweets = getTweets();
+				Log.i("THREADS", "size=" + retrievedTweets.size());
 				Iterator<Status> it = retrievedTweets.iterator();
 				
 				while(it.hasNext()) {
@@ -115,6 +120,7 @@ public class LoginActivity extends SherlockActivity {
 				}
 				MainModel.getInstance().setState(unamrshalledUpdateTaskTweets, unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets, unmarshalledProjectTweets);
 
+				Log.i("THREADS", "STARTING INTENT");
 	            Intent iAssigned =new Intent(LoginActivity.this, MainViewActivity.class);
 	            startActivity(iAssigned);
 			}
@@ -128,12 +134,10 @@ public class LoginActivity extends SherlockActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// askOAuth();
+				askOAuth();
 			}
 
 		});
-
-		askOAuth();
 		// buttonLogin.setOnClickListener(this);
 
 		/**
@@ -226,7 +230,12 @@ public class LoginActivity extends SherlockActivity {
 
 	public ResponseList<Status> getTweets() {
 		try {
-			return twitter.getHomeTimeline();
+			Paging paging = new Paging(1, 1000);
+			ResponseList<Status> ht = twitter.getUserTimeline(paging); // getHomeTimeline();
+			String name = Thread.currentThread().getName();
+			Log.i("thread", name);
+			// ht.wait();
+			return ht;
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}

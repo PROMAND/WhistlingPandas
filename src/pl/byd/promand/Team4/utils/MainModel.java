@@ -203,6 +203,7 @@ public class MainModel {
 			List<AddMemberTweet> unmarshalledAddMemberTweets,
 			List<CreateTaskTweet> unmarshalledCreateTaskTweets,
 			List<NewProjectTweet> unmarshalledProjectTweets) {
+		Log.i("THREADS", "SETTING STATE");
 		tasksMap.clear();
 		// Setting test state as context state
 		project = unmarshalledProjectTweets.get(0).getProject();
