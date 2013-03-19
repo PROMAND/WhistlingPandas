@@ -198,4 +198,29 @@ public class MainModel {
 		return project;
 	}
 
+	public void setState(
+			List<UpdateTaskTweet> unamrshalledUpdateTaskTweets,
+			List<AddMemberTweet> unmarshalledAddMemberTweets,
+			List<CreateTaskTweet> unmarshalledCreateTaskTweets,
+			List<NewProjectTweet> unmarshalledProjectTweets) {
+		tasksMap.clear();
+		// Setting test state as context state
+		project = unmarshalledProjectTweets.get(0).getProject();
+		for (AddMemberTweet cur: unmarshalledAddMemberTweets) {
+			project.getMembers().add(cur.getMemberName());
+		}
+		Long idGenerator = Long.valueOf(0);
+		for (CreateTaskTweet cur : unmarshalledCreateTaskTweets) {
+			Task curTask = cur.getTask();
+			curTask.setId(idGenerator);
+			tasksMap.put(
+					// cur.getTask().getId() // TODO should come from twitter
+					idGenerator, curTask);
+			idGenerator = Long.valueOf(idGenerator + 1);
+		}
+		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
+			updateTask(cur);
+		}
+	}
+
 }
