@@ -68,6 +68,7 @@ public class MainModel {
 		// Test unmarshaling test tweets
 		List<AbstractTaskManagerTweet> unmarshalledTweets = new ArrayList<AbstractTaskManagerTweet>();
 		for (String cur : marshalledTweetStrings) {
+			// Log.i("Dummy", cur);
 			unmarshalledTweets.add(AbstractTaskManagerTweet.parseTweet(cur));
 		}
 		List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
@@ -99,10 +100,12 @@ public class MainModel {
 		}
 		Long idGenerator = Long.valueOf(0);
 		for (CreateTaskTweet cur : unmarshalledCreateTaskTweets) {
+			Task curTask = cur.getTask();
+			curTask.setId(idGenerator);
 			tasksMap.put(
 					// cur.getTask().getId() // TODO should come from twitter
-					idGenerator++
-					, cur.getTask());
+					idGenerator, curTask);
+			idGenerator = Long.valueOf(idGenerator + 1);
 		}
 		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
 			updateTask(cur);

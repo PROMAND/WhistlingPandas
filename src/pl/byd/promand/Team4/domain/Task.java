@@ -241,6 +241,7 @@ public class Task implements ITaskListItem, Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringArray(new String[] {
+        		this.getId().toString(), // Index 0
         		this.getTitle(), // Index 0
         		this.getAssignee(), // 1
         		this.getCreator(), // 2
@@ -249,14 +250,15 @@ public class Task implements ITaskListItem, Parcelable {
         		this.getType().toString(), // 5
         		this.getState().toString(), // 6
         		Utils.convertToString(getCreated()), // 7
-        		Utils.convertToString(getDeadLine()), // 8
+        		Utils.convertToString(getDeadLine()), // 8 + 1
         });
 	}
 	
     public Task(Parcel in){
-        String[] data = new String[9];
+        String[] data = new String[10];
         in.readStringArray(data);
         int idx = 0;
+        this.id = Long.valueOf(data[idx++]);
         this.title = data[idx++];
         this.assignee = data[idx++];
         this.creator = data[idx++];
