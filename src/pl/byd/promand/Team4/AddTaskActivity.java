@@ -54,7 +54,7 @@ public class AddTaskActivity extends SherlockActivity {
 		setContentView(R.layout.add_task);
 
 		// Assignee
-		List<String> testProjectMembers = Utils.getTestProject().getMembers();
+		List<String> testProjectMembers = MainModel.getInstance().getProject().getMembers();
 		String[] assigneeArray = new String[testProjectMembers.size()];
 		for (int i = 0; i < assigneeArray.length; i++) {
 			String cur = testProjectMembers.get(i);

@@ -50,7 +50,7 @@ public class MainViewActivity extends SherlockListActivity {
             Intent inviteActivity =new Intent(MainViewActivity.this, InviteActivity.class);
             startActivity(inviteActivity);
 			return true;
-		case R.id.settings:
+		case R.id.settingsView:
             Intent i=new Intent(MainViewActivity.this, PropertiesActivity.class);
             startActivity(i);
 			return true;
