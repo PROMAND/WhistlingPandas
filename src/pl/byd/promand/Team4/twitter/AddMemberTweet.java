@@ -15,6 +15,7 @@ public class AddMemberTweet extends AbstractTaskManagerTweet {
 		return memberName;
 	}
 
+	@Override
 	public String getTweet() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getType());

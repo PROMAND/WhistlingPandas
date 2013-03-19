@@ -48,7 +48,8 @@ public class CreateTaskTweet extends AbstractTaskManagerTweet {
 		Task ret = new Task(title, assignee, creator, description, created, deadLine, priority, taskType, state);
 		return ret;
 	}
-	
+
+	@Override
 	public String getTweet() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getType());
@@ -66,7 +67,8 @@ public class CreateTaskTweet extends AbstractTaskManagerTweet {
 		sb.append(getTask().getAssignee());
 		// Creator
 		sb.append(Constants.SEPARATOR);
-		sb.append(MainModel.getInstance().getProject().getYourself());
+		// TODO
+		sb.append("testself 2") ;//MainModel.getInstance().getProject().getYourself());
 		// Deadline
 		sb.append(Constants.SEPARATOR);
 		sb.append(getTask().getFormattedDeadline());

@@ -1,8 +1,10 @@
 package pl.byd.promand.Team4.twitter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import pl.byd.promand.Team4.domain.Project;
 import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
@@ -36,6 +38,14 @@ public abstract class AbstractTaskManagerTweet {
 	
 	/**
 	 * 
+	 * Marshals tweet into custom tweet <code>String</code> format
+	 * 
+	 * @return This tweet as a string
+	 */
+	public abstract String getTweet();
+	
+	/**
+	 * 
 	 * Retrieves the custom tweet type 
 	 * 
 	 * @return Type
@@ -56,8 +66,10 @@ public abstract class AbstractTaskManagerTweet {
 		TweetType type = TweetType.valueOf(strings[0]);
 		switch (type) {
 		case NP:
+			// TODO Where get yourself from? 
 			String projectName = strings[1];
-			return new NewProjectTweet(projectName);
+			Project project = new Project(projectName, new ArrayList<String>(), "you yourself");
+			return new NewProjectTweet(project);
 		case AM:
 			String memberName = strings[1];
 			return new AddMemberTweet(memberName);

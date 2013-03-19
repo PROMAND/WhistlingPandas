@@ -38,26 +38,6 @@ public class Utils {
 	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 	
 	/**
-	 * Id counter for populating tasks list with test data 
-	 */
-	private static int counter = 0;
-	
-	/**
-	 * Helps to generate random test data
-	 */
-	private static Random r = new Random();
-	
-	/**
-	 * 
-	 * Retrieves the next test task id
-	 * 
-	 * @return Id
-	 */
-	public static int getNextTestDataTaskId() {
-		return counter++;
-	}
-	
-	/**
 	 * Retrieves the common formatter for date fields
 	 * 
 	 * @return Date formatter
@@ -91,46 +71,6 @@ public class Utils {
 	 */
 	public static String convertToString(Date date) {
 		return getDateformatter().format(date);
-	}
-	
-	/**
-	 * 
-	 * Populates tasks list with test data
-	 * 
-	 * @param tasksList
-	 */
-	public static void populateWithTestData(Map<Long, Task> tasksList) {
-		// Collection<ITaskListItem> paramList = new ArrayList<ITaskListItem>();
-		// List<String> members = MainModel.getInstance().getProject().getMembers();
-		for (TaskType type : TaskType.values()) {
-			for (TaskPriority priority : TaskPriority.values()) {
-				for (TaskState state : TaskState.values()) {
-					counter++;
-				String name = state + " - " + priority + " " + counter;
-				Calendar cal = Calendar.getInstance();
-				
-				int year = cal.get(Calendar.YEAR) - r.nextInt(5);
-				int month = r.nextInt(11);
-				int date = r.nextInt(27);
-
-		        cal.set(Calendar.YEAR, year);
-		        cal.set(Calendar.MONTH, month);
-		        cal.set(Calendar.DATE, date);
-				/*
-				long diff = 100000 * (type.ordinal() + 1) * (priority.ordinal() + 1) * (state.ordinal());
-				long newTime = cal.getTimeInMillis() - diff;
-				cal.setTimeInMillis(newTime);//.add(Calendar.DAY_OF_MONTH, -diff );
-		        */
-				Date deadLine = cal.getTime();
-				Task task = new Task(name , "Person " + counter, "Person " + 1, "Description " + counter, Calendar
-						.getInstance().getTime(), deadLine ,
-						priority, type, state);
-				task.setId(Long.valueOf(counter));
-				// paramList.add(task);
-				tasksList.put(task.getId(), task);
-				}
-			}
-		}
 	}
 
 	/**
@@ -193,75 +133,6 @@ public class Utils {
 			tasksList.put(key, cur);
 		}
 		*/
-	}
-
-	/**
-	 * 
-	 * Generates a test project
-	 * 
-	 * @return Project
-	 */
-	public static Project getTestProject() {
-		String projectName = "UI revamp";
-		List<String> membersList = new ArrayList<String>();
-		for (int i = 1; i <= counter; i++) {
-			String personName = "Person " + i;
-			membersList.add(personName);
-			
-		}
-		Project ret = new Project(projectName, membersList, membersList.get(0));
-		return ret;
-	}
-
-	/**
-	 * 
-	 * Creates random updates, marshals them into <code>String</code>
-	 * 
-	 * @param tasksMap
-	 */
-	public static void updateTasks(Map<Long, Task> tasksMap) {
-		List<UpdateTaskTweet> updates = new ArrayList<UpdateTaskTweet>();
-		for (Task task : tasksMap.values()) {
-			boolean toUpdate = r.nextBoolean();
-			if (toUpdate) {
-				String assignee = null;
-				boolean changeAssignee = r.nextBoolean();
-				if (changeAssignee) {
-					assignee = "Code man";
-				}
-			String title = "U " + task.getTitle(),    
-					creator = null, // Creator cannot be changed 
-					description = "U " + task.getDescription();
-			Date created = null; // created cannot be changed
-			Date deadLine = null; 
-			boolean changeDeadline = r.nextBoolean();
-			if (changeDeadline) {
-				Calendar deadLineCalendar = Calendar.getInstance();
-				deadLineCalendar.set(Calendar.DATE, 1);
-				deadLineCalendar.set(Calendar.MONTH, 1);
-				deadLineCalendar.set(Calendar.YEAR, 1999);
-				deadLine = deadLineCalendar.getTime();
-			}
-			TaskPriority priority = TaskPriority.values()[r.nextInt(TaskPriority.values().length)]; 
-			TaskType type = TaskType.values()[r.nextInt(TaskType.values().length)]; 
-			TaskState state =TaskState.values()[r.nextInt(TaskState.values().length)]; 
-			Task change = new Task( title,  assignee,  creator,  description,
-					 created,  deadLine,  priority,  type,  state);
-			change.setId(task.getId());
-			UpdateTaskTweet utt = new UpdateTaskTweet(change);
-			updates.add(utt);
-			}
-		}
-		List<String> updateStrings = new ArrayList<String>();
-		for (UpdateTaskTweet utt : updates) {
-			updateStrings.add(utt.getTweet());
-		}
-		for (String s : updateStrings) {
-		UpdateTaskTweet utt = (UpdateTaskTweet) AbstractTaskManagerTweet.parseTweet(s);
-		updateTask(utt, tasksMap);
-		// MainModel.getInstance().updateTask(utt);
-		}
-		
 	}
 
 	public static void updateTask(UpdateTaskTweet utt,  Map<Long, Task> tasksMap) {

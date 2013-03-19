@@ -18,7 +18,9 @@ import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
 import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
+import pl.byd.promand.Team4.twitter.AddMemberTweet;
 import pl.byd.promand.Team4.twitter.CreateTaskTweet;
+import pl.byd.promand.Team4.twitter.NewProjectTweet;
 import pl.byd.promand.Team4.twitter.TweetType;
 import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 
@@ -52,11 +54,59 @@ public class MainModel {
 	 * Private constructor for the singleton instance
 	 */
 	private MainModel() {
-		Utils.populateWithTestData(tasksMap);
-		Utils.populateWithTestData(tasksMap); // more items
-		project = Utils.getTestProject();
-		
-		Utils.updateTasks(tasksMap);
+		List<AbstractTaskManagerTweet> tweetsToMarshal = new ArrayList<AbstractTaskManagerTweet>();
+		// Creating test data
+		tweetsToMarshal.add(TestDataPopulator.generateNewProjectTweet());
+		tweetsToMarshal.addAll(TestDataPopulator.generateTaskCreationTweets());
+		tweetsToMarshal.addAll(TestDataPopulator.generateAddMemberTweets());
+		tweetsToMarshal.addAll(TestDataPopulator.generateUpdateTaskTweets());
+		// Test marshaling test tweets
+		List<String> marshalledTweetStrings = new ArrayList<String>();
+		for (AbstractTaskManagerTweet cur : tweetsToMarshal) {
+			marshalledTweetStrings.add(cur.getTweet());
+		}
+		// Test unmarshaling test tweets
+		List<AbstractTaskManagerTweet> unmarshalledTweets = new ArrayList<AbstractTaskManagerTweet>();
+		for (String cur : marshalledTweetStrings) {
+			unmarshalledTweets.add(AbstractTaskManagerTweet.parseTweet(cur));
+		}
+		List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
+		List<AddMemberTweet> unmarshalledAddMemberTweets = new ArrayList<AddMemberTweet>();
+		List<CreateTaskTweet> unmarshalledCreateTaskTweets = new ArrayList<CreateTaskTweet>();
+		List<UpdateTaskTweet> unamrshalledUpdateTaskTweets = new ArrayList<UpdateTaskTweet>();
+		for (AbstractTaskManagerTweet cur : unmarshalledTweets) {
+			switch (cur.getType()) {
+			case AM:
+				unmarshalledAddMemberTweets.add((AddMemberTweet)cur);
+				break;
+			case CT:
+				unmarshalledCreateTaskTweets.add((CreateTaskTweet)cur);
+				break;
+			case NP:
+				unmarshalledProjectTweets.add((NewProjectTweet)cur);
+				break;
+			case UT:
+				unamrshalledUpdateTaskTweets.add((UpdateTaskTweet)cur);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown tweet type: " + cur.getType());
+			}
+		}
+		// Setting test state as context state
+		project = unmarshalledProjectTweets.get(0).getProject();
+		for (AddMemberTweet cur: unmarshalledAddMemberTweets) {
+			project.getMembers().add(cur.getMemberName());
+		}
+		Long idGenerator = Long.valueOf(0);
+		for (CreateTaskTweet cur : unmarshalledCreateTaskTweets) {
+			tasksMap.put(
+					// cur.getTask().getId() // TODO should come from twitter
+					idGenerator++
+					, cur.getTask());
+		}
+		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
+			updateTask(cur);
+		}
 	}
 	
 	/**
@@ -96,11 +146,12 @@ public class MainModel {
 	 */
 	public List<ITaskListItem> getTasksList() {
 		List<Task> 
-		tasksAsListBeforeParsing 
-		// tasksAsList
+		// tasksAsListBeforeParsing 
+		tasksAsList
 		= new ArrayList<Task>()
 		;
-		tasksAsListBeforeParsing.addAll(tasksMap.values());
+		tasksAsList.addAll(tasksMap.values());
+		/*
 		
 		List<String> parsed = new ArrayList<String>();
 		for (Task cur : tasksAsListBeforeParsing) {
@@ -114,7 +165,7 @@ public class MainModel {
 			CreateTaskTweet ctt = (CreateTaskTweet)task;
 			tasksAsList.add(ctt.getTask());
 		}
-		
+		*/
 		List<TaskListSeparator> separators = Utils.getSeparators(tasksAsList);
 		List<ITaskListItem> ret = new ArrayList<ITaskListItem>();
 		ret.addAll(tasksAsList);

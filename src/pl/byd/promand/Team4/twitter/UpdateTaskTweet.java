@@ -24,6 +24,7 @@ public class UpdateTaskTweet  extends AbstractTaskManagerTweet {
 		return task;
 	}
 	
+	@Override
 	public String getTweet() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getType());
