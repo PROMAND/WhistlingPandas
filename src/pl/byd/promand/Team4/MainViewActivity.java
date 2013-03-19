@@ -30,9 +30,13 @@ public class MainViewActivity extends SherlockListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+        case R.id.settingsView:
+            Intent settingsView =new Intent(MainViewActivity.this, PropertiesActivity.class);
+            startActivity(settingsView);
+            return true;
 		case R.id.addTask:
             Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
-            startActivity(addTaskActivity);
+            startActivityForResult(addTaskActivity, Constants.REFRESH_MAIN_SCREEN);
 			return true;
         case R.id.allTasks:
             Intent allTasks =new Intent(MainViewActivity.this, MainViewActivity.class);
@@ -50,13 +54,13 @@ public class MainViewActivity extends SherlockListActivity {
             Intent inviteActivity =new Intent(MainViewActivity.this, InviteActivity.class);
             startActivity(inviteActivity);
 			return true;
-		case R.id.settingsView:
-            Intent i=new Intent(MainViewActivity.this, PropertiesActivity.class);
-            startActivity(i);
-			return true;
 		case R.id.refresh:
-			System.out.println("refresh");
+            //refreshes only local taskMap, not twitter
+            setListAdapter(new TaskListAdapter(this, MainModel.getInstance().getTasksList()));
 			return true;
+        case R.id.logout:
+
+            return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -79,14 +83,20 @@ public class MainViewActivity extends SherlockListActivity {
 		Object selectedInstance = getListAdapter().getItem(position);
 		if (selectedInstance instanceof Task) {
 		Task selectedValue = (Task) selectedInstance;
+
 		// Toast.makeText(this, selectedValue.getTitle(), Toast.LENGTH_SHORT).show();
         Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
         addTaskActivity.putExtra(Constants.INTENT_EXTRA_TASK, selectedValue);
-        startActivity(addTaskActivity);
+        startActivityForResult(addTaskActivity, Constants.REFRESH_MAIN_SCREEN);
 		}
 	}
-	
-	
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Constants.REFRESH_MAIN_SCREEN) {
+            setListAdapter(new TaskListAdapter(this, MainModel.getInstance().getTasksList()));
+        }
+    }
 
 }

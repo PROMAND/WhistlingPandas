@@ -90,39 +90,6 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal" >
             </RadioGroup>
-<!-- 
-            <Spinner
-                    android:id="@+id/id_edittask_priority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:contentDescription="Priority" />
- -->
-<!-- 
-
-                <RadioButton
-                    android:id="@+id/priorityLow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:text="Low"
-                    android:textSize="15dp" />
-                <RadioButton
-                    android:id="@+id/priorityMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:text="Medium"
-                    android:textSize="15dp" />
-
-                <RadioButton
-                    android:id="@+id/priorityHigh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="High"
-                    android:textSize="15dp" />
-                     -->
             <TextView
                     style="@style/label"
                     android:id="@+id/textView2"

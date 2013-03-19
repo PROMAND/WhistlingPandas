@@ -35,19 +35,34 @@ public class Task implements ITaskListItem, Parcelable {
 	
 	private Long id;
 
-	public Task(String title, String assignee, String creator, String description,
-			Date created, Date deadLine, TaskPriority priority, TaskType type, TaskState state) {
-		super();
-		this.title = title;
-		this.assignee = assignee;
-		this.creator = creator;
-		this.description = description;
-		this.created = created;
-		this.deadLine = deadLine;
-		this.priority = priority;
-		this.type = type;
-		this.state = state;
-	}
+    public Task(long id, String title, String assignee, String creator, String description,
+                Date created, Date deadLine, TaskPriority priority, TaskType type, TaskState state) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.assignee = assignee;
+        this.creator = creator;
+        this.description = description;
+        this.created = created;
+        this.deadLine = deadLine;
+        this.priority = priority;
+        this.type = type;
+        this.state = state;
+    }
+
+    public Task(String title, String assignee, String creator, String description,
+                Date created, Date deadLine, TaskPriority priority, TaskType type, TaskState state) {
+        super();
+        this.title = title;
+        this.assignee = assignee;
+        this.creator = creator;
+        this.description = description;
+        this.created = created;
+        this.deadLine = deadLine;
+        this.priority = priority;
+        this.type = type;
+        this.state = state;
+    }
 
     public Long getId() {
 		return id;

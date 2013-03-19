@@ -11,6 +11,7 @@ import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
 import pl.byd.promand.Team4.twitter.CreateTaskTweet;
+import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 import pl.byd.promand.Team4.utils.Constants;
 import pl.byd.promand.Team4.utils.MainModel;
 import pl.byd.promand.Team4.utils.Utils;
@@ -90,16 +91,14 @@ public class AddTaskActivity extends SherlockActivity {
             RadioButton rb = new RadioButton(this);
             String priorityText = getResources().getString(item.getFormString());
             rb.setText(priorityText);
-            rb.setTextSize(15);
+            rb.setTextSize(30);
+            rb.setId(item.getFormString());
             if (task != null && item.equals(task.getPriority())) {
-            	// Log.i("priority", "OK!");
-            	// rb.refreshDrawableState();
-            	// rb.setSelected(true); // TODO
             	rb.setChecked(true);
             }
             rg.addView(rb);
         }
-        rg.setSelected(true);
+        //rg.setSelected(true);
         
         
         // Task deadline
@@ -179,14 +178,21 @@ public class AddTaskActivity extends SherlockActivity {
                 TaskState newState = (TaskState)stateSpinner.getSelectedItem();
 
                 RadioGroup priorityChecked = (RadioGroup) findViewById(R.id.radioPriority);
-//                int selectedPriorityId = priorityChecked.get
                 int radioButtonID = priorityChecked.getCheckedRadioButtonId();
                 View radioButton = priorityChecked.findViewById(radioButtonID);
                 int idx = priorityChecked.indexOfChild(radioButton);
                 TaskPriority newPriority = TaskPriority.values()[idx];
 
                 //create task object
-                Task newTask = new Task(newTitle, newAssignee, newCreator, newDescription,
+                Task task = null;
+                Intent intent = getIntent();
+                if (intent != null) {
+                    Bundle data = intent.getExtras();
+                    if (data != null) {
+                        task = data.getParcelable(Constants.INTENT_EXTRA_TASK);
+                    }
+                }
+                Task newTask = new Task(task.getId(), newTitle, newAssignee, newCreator, newDescription,
                        newCreated, newDeadline, newPriority, newType, newState);
                 CreateTaskTweet newTweet = new CreateTaskTweet(newTask);
 
@@ -194,10 +200,15 @@ public class AddTaskActivity extends SherlockActivity {
 
 
                 //get unique id from twitter - in my case, get counter value.
-                int uniqueId = Utils.getNextTestDataTaskId();
+                long uniqueId = Utils.getNextValue();
 
                 //save task object into the map
-                MainModel.getInstance().add(uniqueId, newTask);
+                    if (task != null)  {
+                        UpdateTaskTweet utt = new UpdateTaskTweet(newTask);
+                        MainModel.getInstance().updateTask(utt);
+                    } else {
+                        MainModel.getInstance().addTask(uniqueId, newTask);
+                    }
 
                 //show message that everything is saved
                 Context context = getApplicationContext();

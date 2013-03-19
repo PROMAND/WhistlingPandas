@@ -138,6 +138,7 @@ public class MainModel {
 	 * @param utt Task update object
 	 */
 	public void updateTask(UpdateTaskTweet utt) {
+        //Log.i("taskTitle", utt.getTask().getId().toString());
 		Utils.updateTask(utt, tasksMap);
 	}
 	

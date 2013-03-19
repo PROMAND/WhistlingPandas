@@ -13,7 +13,7 @@
         style="@style/menuItem"
         android:orderInCategory="3"
         android:showAsAction="always"
-        android:title="Tasks">
+        android:title="TASKS">
         <menu>
             <item
                     android:id="@+id/addTask"
@@ -40,7 +40,7 @@
         android:orderInCategory="4"
         style="@style/menuItem"
         android:showAsAction="always"
-        android:title="Options">
+        android:title="OPTIONS">
         <menu>
             <item
                 android:id="@+id/invite"
@@ -52,5 +52,10 @@
                 android:title="Project settings"/>
         </menu>
     </item>
+
+    <item
+            android:id="@+id/logout"
+            style="@style/menuItem"
+            android:title="LOGOUT"/>
 
 </menu>

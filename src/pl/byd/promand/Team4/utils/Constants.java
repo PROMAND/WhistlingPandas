@@ -31,5 +31,5 @@ public interface Constants {
 	static final String IEXTRA_AUTH_URL = "auth_url";
 	static final String IEXTRA_OAUTH_VERIFIER = "oauth_verifier";
 	static final String IEXTRA_OAUTH_TOKEN = "oauth_token";
-	
+    static final int REFRESH_MAIN_SCREEN = 0;
 }

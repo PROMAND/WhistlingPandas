@@ -31,7 +31,11 @@ import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
  *
  */
 public class Utils {
-	
+
+    private static long counter = 555;
+    public static long getNextValue() {
+        return counter++;
+    }
 	/**
 	 * Common formatter for date objects
 	 */
@@ -182,8 +186,9 @@ public class Utils {
 		}
 		TaskType newType = update.getType();
 		if (newType != null) {
-			update.setType(newType );
+			task.setType(newType );
 		}
+        tasksMap.put(id, task);
 	}
 
 }
