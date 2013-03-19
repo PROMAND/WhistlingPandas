@@ -9,13 +9,19 @@
             android:summary="Change settings"
             android:title="Settings" >
 
-        <ListPreference
-                android:id="@+id/currentProject"
-                android:key="currentProject"/>
+        <!--<ListPreference-->
+                <!--android:id="@+id/currentProject"-->
+                <!--android:key="currentProject"-->
+                <!--android:entries="@array/updatesOptions"-->
+                <!--android:entryValues="@array/updatesOptionsValues"-->
+                <!--/>-->
 
         <ListPreference
                 android:id="@+id/updates"
-                android:key="updates" />
+                android:entries="@array/updatesOptions"
+                android:entryValues="@array/updatesOptionsValues"
+                android:key="updates"
+                android:title="How frequently update task list"/>
 
         <CheckBoxPreference
                 android:id="@+id/wifiUpdate"

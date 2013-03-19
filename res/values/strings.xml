@@ -24,4 +24,5 @@
     <string name="updatesOptions">How frequently updates should be checked on server</string>
     <string name="notSet">Not set</string>
     <string name="projectOptions">Set current project</string>
+
 </resources>
