@@ -242,7 +242,7 @@ public class LoginActivity extends SherlockActivity {
 		return null;
 	}
 
-	public long sendTweet(String tweet) {
+	public static long sendTweet(String tweet) {
 
 		try {
 			Status response = twitter.updateStatus(tweet);
