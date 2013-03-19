@@ -18,7 +18,10 @@ import pl.byd.promand.Team4.domain.TaskPriority;
 import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
 import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
+import pl.byd.promand.Team4.twitter.AddMemberTweet;
 import pl.byd.promand.Team4.twitter.CreateTaskTweet;
+import pl.byd.promand.Team4.twitter.NewProjectTweet;
+import pl.byd.promand.Team4.twitter.TweetType;
 import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 
 /**
@@ -32,9 +35,14 @@ import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
  */
 public class MainModel {
 	
-	// Keep this list sorted!
+	/**
+	 * Map of tasks with their Id-s as keys
+	 */
 	private Map<Long, Task> tasksMap = new HashMap<Long, Task>();
 	
+	/**
+	 * Currently active project
+	 */
 	private Project project;
 	
 	/**
@@ -42,26 +50,108 @@ public class MainModel {
 	 */
 	private static MainModel _instance = new MainModel();
 	
+	/**
+	 * Private constructor for the singleton instance
+	 */
 	private MainModel() {
-		Utils.populateWithTestData(tasksMap);
-		Utils.populateWithTestData(tasksMap); // more items
-		
-		Utils.updateTasks(tasksMap);
-		
-		project = Utils.getTestProject();
+		List<AbstractTaskManagerTweet> tweetsToMarshal = new ArrayList<AbstractTaskManagerTweet>();
+		// Creating test data
+		tweetsToMarshal.add(TestDataPopulator.generateNewProjectTweet());
+		tweetsToMarshal.addAll(TestDataPopulator.generateTaskCreationTweets());
+		tweetsToMarshal.addAll(TestDataPopulator.generateAddMemberTweets());
+		tweetsToMarshal.addAll(TestDataPopulator.generateUpdateTaskTweets());
+		// Test marshaling test tweets
+		List<String> marshalledTweetStrings = new ArrayList<String>();
+		for (AbstractTaskManagerTweet cur : tweetsToMarshal) {
+			marshalledTweetStrings.add(cur.getTweet());
+		}
+		// Test unmarshaling test tweets
+		List<AbstractTaskManagerTweet> unmarshalledTweets = new ArrayList<AbstractTaskManagerTweet>();
+		for (String cur : marshalledTweetStrings) {
+			unmarshalledTweets.add(AbstractTaskManagerTweet.parseTweet(cur));
+		}
+		List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
+		List<AddMemberTweet> unmarshalledAddMemberTweets = new ArrayList<AddMemberTweet>();
+		List<CreateTaskTweet> unmarshalledCreateTaskTweets = new ArrayList<CreateTaskTweet>();
+		List<UpdateTaskTweet> unamrshalledUpdateTaskTweets = new ArrayList<UpdateTaskTweet>();
+		for (AbstractTaskManagerTweet cur : unmarshalledTweets) {
+			switch (cur.getType()) {
+			case AM:
+				unmarshalledAddMemberTweets.add((AddMemberTweet)cur);
+				break;
+			case CT:
+				unmarshalledCreateTaskTweets.add((CreateTaskTweet)cur);
+				break;
+			case NP:
+				unmarshalledProjectTweets.add((NewProjectTweet)cur);
+				break;
+			case UT:
+				unamrshalledUpdateTaskTweets.add((UpdateTaskTweet)cur);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown tweet type: " + cur.getType());
+			}
+		}
+		// Setting test state as context state
+		project = unmarshalledProjectTweets.get(0).getProject();
+		for (AddMemberTweet cur: unmarshalledAddMemberTweets) {
+			project.getMembers().add(cur.getMemberName());
+		}
+		Long idGenerator = Long.valueOf(0);
+		for (CreateTaskTweet cur : unmarshalledCreateTaskTweets) {
+			tasksMap.put(
+					// cur.getTask().getId() // TODO should come from twitter
+					idGenerator++
+					, cur.getTask());
+		}
+		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
+			updateTask(cur);
+		}
 	}
-
-    public void add(long id, Task task) {
-        tasksMap.put(id, task);
-    }
-
+	
+	/**
+	 * 
+	 * Adds a task to this central context
+	 * 
+	 * @param id Task id
+	 * @param task Task object
+	 */
+	public void addTask(Long id, Task task) {
+		if (id == null) {
+			throw new NullPointerException("Id is null");
+		}
+		if (task == null) {
+			throw new NullPointerException("Task is null");
+		}
+		if (tasksMap.containsKey(id)) {
+			throw new IllegalStateException("A task with id " + id + " already exists");
+		}
+		tasksMap.put(id, task);
+	}
+	
+	/**
+	 * Updates this central repository with parameter task update
+	 *  
+	 * @param utt Task update object
+	 */
+	public void updateTask(UpdateTaskTweet utt) {
+		Utils.updateTask(utt, tasksMap);
+	}
+	
+	/**
+	 * 
+	 * Retrieves the sorted tasks list for the main task list view with the separators
+	 * 
+	 * @return Tasks list with separators
+	 */
 	public List<ITaskListItem> getTasksList() {
 		List<Task> 
-		tasksAsListBeforeParsing 
-		// tasksAsList
+		// tasksAsListBeforeParsing 
+		tasksAsList
 		= new ArrayList<Task>()
 		;
-		tasksAsListBeforeParsing.addAll(tasksMap.values());
+		tasksAsList.addAll(tasksMap.values());
+		/*
 		
 		List<String> parsed = new ArrayList<String>();
 		for (Task cur : tasksAsListBeforeParsing) {
@@ -75,7 +165,7 @@ public class MainModel {
 			CreateTaskTweet ctt = (CreateTaskTweet)task;
 			tasksAsList.add(ctt.getTask());
 		}
-		
+		*/
 		List<TaskListSeparator> separators = Utils.getSeparators(tasksAsList);
 		List<ITaskListItem> ret = new ArrayList<ITaskListItem>();
 		ret.addAll(tasksAsList);

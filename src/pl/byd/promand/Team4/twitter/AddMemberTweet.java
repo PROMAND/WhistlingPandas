@@ -1,5 +1,7 @@
 package pl.byd.promand.Team4.twitter;
 
+import pl.byd.promand.Team4.utils.Constants;
+
 public class AddMemberTweet extends AbstractTaskManagerTweet {
 	
 	private final String memberName;
@@ -11,6 +13,16 @@ public class AddMemberTweet extends AbstractTaskManagerTweet {
 	
 	public String getMemberName() {
 		return memberName;
+	}
+
+	@Override
+	public String getTweet() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getType());
+		// Member name
+		sb.append(Constants.SEPARATOR);
+		sb.append(getMemberName());
+		return sb.toString();
 	}
 
 }
