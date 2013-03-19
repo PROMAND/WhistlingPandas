@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <item
+            android:id="@+id/refresh"
+            android:orderInCategory="2"
+            android:showAsAction="always"
+            android:icon="@drawable/refresh"/>
+
+    <item
+        android:id="@+id/tasks"
+        style="@style/menuItem"
+        android:orderInCategory="3"
+        android:showAsAction="always"
+        android:title="Tasks">
+        <menu>
+            <item
+                    android:id="@+id/addTask"
+                    style="@style/menuItem"
+                    android:showAsAction="always"
+                    android:title="Add task"/>
+            <item
+                    android:id="@+id/allTasks"
+                    style="@style/menuItem"
+                    android:title="All tasks"/>
+            <item
+                    android:id="@+id/assignedToMe"
+                    style="@style/menuItem"
+                    android:title="Tasks assigned to me"/>
+            <item
+                    android:id="@+id/iAssigned"
+                    style="@style/menuItem"
+                    android:title="Tasks I assigned"/>
+        </menu>
+    </item>
+    
+    <item
+        android:id="@+id/optionMenu"
+        android:orderInCategory="4"
+        style="@style/menuItem"
+        android:showAsAction="always"
+        android:title="Options">
+        <menu>
+            <item
+                android:id="@+id/invite"
+                style="@style/menuItem"
+                android:title="Send invite"/>
+            <item
+                android:id="@+id/settingsView"
+                style="@style/menuItem"
+                android:title="Project settings"/>
+        </menu>
+    </item>
+
+</menu>
