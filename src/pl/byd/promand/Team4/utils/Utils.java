@@ -258,15 +258,15 @@ public class Utils {
 		}
 		for (String s : updateStrings) {
 		UpdateTaskTweet utt = (UpdateTaskTweet) AbstractTaskManagerTweet.parseTweet(s);
-		updateTask(tasksMap, utt );
+		updateTask(utt, tasksMap);
+		// MainModel.getInstance().updateTask(utt);
 		}
 		
 	}
 
-	private static void updateTask(Map<Long, Task> tasksMap, UpdateTaskTweet utt) {
-		TweetType tt = utt.getType();
-		if (!tt.equals(TweetType.UT)) {
-			throw new IllegalArgumentException("Not an update: " + tt);
+	public static void updateTask(UpdateTaskTweet utt,  Map<Long, Task> tasksMap) {
+		if (utt == null) {
+			throw new NullPointerException("Update is");
 		}
 		Task update = utt.getTask();
 		Long id = update.getId();

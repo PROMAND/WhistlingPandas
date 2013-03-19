@@ -19,6 +19,7 @@ import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
 import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
 import pl.byd.promand.Team4.twitter.CreateTaskTweet;
+import pl.byd.promand.Team4.twitter.TweetType;
 import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 
 /**
@@ -32,9 +33,14 @@ import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
  */
 public class MainModel {
 	
-	// Keep this list sorted!
+	/**
+	 * Map of tasks with their Id-s as keys
+	 */
 	private Map<Long, Task> tasksMap = new HashMap<Long, Task>();
 	
+	/**
+	 * Currently active project
+	 */
 	private Project project;
 	
 	/**
@@ -42,15 +48,52 @@ public class MainModel {
 	 */
 	private static MainModel _instance = new MainModel();
 	
+	/**
+	 * Private constructor for the singleton instance
+	 */
 	private MainModel() {
 		Utils.populateWithTestData(tasksMap);
 		Utils.populateWithTestData(tasksMap); // more items
+		project = Utils.getTestProject();
 		
 		Utils.updateTasks(tasksMap);
-		
-		project = Utils.getTestProject();
 	}
 	
+	/**
+	 * 
+	 * Adds a task to this central context
+	 * 
+	 * @param id Task id
+	 * @param task Task object
+	 */
+	public void addTask(Long id, Task task) {
+		if (id == null) {
+			throw new NullPointerException("Id is null");
+		}
+		if (task == null) {
+			throw new NullPointerException("Task is null");
+		}
+		if (tasksMap.containsKey(id)) {
+			throw new IllegalStateException("A task with id " + id + " already exists");
+		}
+		tasksMap.put(id, task);
+	}
+	
+	/**
+	 * Updates this central repository with parameter task update
+	 *  
+	 * @param utt Task update object
+	 */
+	public void updateTask(UpdateTaskTweet utt) {
+		Utils.updateTask(utt, tasksMap);
+	}
+	
+	/**
+	 * 
+	 * Retrieves the sorted tasks list for the main task list view with the separators
+	 * 
+	 * @return Tasks list with separators
+	 */
 	public List<ITaskListItem> getTasksList() {
 		List<Task> 
 		tasksAsListBeforeParsing 
