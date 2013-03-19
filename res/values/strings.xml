@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Team4</string>
+    <string name="allTasks">All tasks</string>
+    <string name="myTasks">My Tasks</string>
+    <string name="tapToViewTasks">Tap here to view tasks</string>
+
+    <!-- Task types -->
+    <string name="tasktype_bug">Bug</string>
+    <string name="tasktype_feature">Feature</string>
+
+    <!-- Task states -->
+    <string name="taskstate_started">Started</string>
+    <string name="taskstate_assigned">Assigned</string>
+    <string name="taskstate_rejected">Rejected</string>
+    <string name="taskstate_finished">Finished</string>
+
+    <!-- Task priorities -->
+    <string name="taskpriority_low">Low</string>
+    <string name="taskpriority_medium">Medium</string>
+    <string name="taskpriority_high">High</string>
+
+    <!-- Project options -->
+    <string name="updatesOptions">How frequently updates should be checked on server</string>
+    <string name="notSet">Not set</string>
+    <string name="projectOptions">Set current project</string>
+
+    <!-- Login values -->
+    <string name="label_disconnect">Disconnect</string>
+    <string name="label_connect">Connect to Twitter</string>
+
+</resources>
