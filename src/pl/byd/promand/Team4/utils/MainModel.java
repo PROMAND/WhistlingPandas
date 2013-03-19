@@ -50,7 +50,11 @@ public class MainModel {
 		
 		project = Utils.getTestProject();
 	}
-	
+
+    public void add(long id, Task task) {
+        tasksMap.put(id, task);
+    }
+
 	public List<ITaskListItem> getTasksList() {
 		List<Task> 
 		tasksAsListBeforeParsing 

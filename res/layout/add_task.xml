@@ -17,18 +17,19 @@
             <TextView
                 style="@style/pageTitle"
                 android:id="@+id/textView1"
-                android:text="New task"
-                 />
-
+                android:text="New task">
+            </TextView>
             <TextView
                     style="@style/label"
                     android:id="@+id/textView2"
                     android:text="Task title"
                     />
             <EditText
-                style="@style/taskTitle"
+                style="@style/textField"
                 android:id="@+id/title"
-                android:selectAllOnFocus="false"/>
+                android:selectAllOnFocus="false">
+                <requestFocus />
+            </EditText>
 
             <TextView
                     style="@style/label"
@@ -38,8 +39,7 @@
 
             <Spinner
                     android:id="@+id/stateSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/spinner"
                     android:layout_marginBottom="10dp"/>
 
             <TextView
@@ -49,10 +49,8 @@
                     />
             <Spinner
                     android:id="@+id/assignee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:contentDescription="Assignee" />
+                    style="@style/spinner"
+                    android:layout_marginBottom="10dp" />
 
             <TextView
                     style="@style/label"
@@ -74,8 +72,7 @@
                     />
             <Spinner
                 android:id="@+id/type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/spinner"
                 android:layout_marginBottom="10dp"/>
 
             <TextView
@@ -141,33 +138,29 @@
                 android:includeFontPadding="false"
                 android:inputType="textMultiLine"
                 android:textSize="20dp" >
-
-                <requestFocus />
             </EditText>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    >
+
+                <Button
+                        android:id="@+id/saveTask"
+                        style="@style/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Save" />
+
+                <Button
+                        android:id="@+id/cancelTask"
+                        style="@style/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Cancel" />
+
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-<!-- 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        >
-
-        <Button
-            android:id="@+id/save"
-            style="@style/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save" />
-
-        <Button
-            android:id="@+id/cancel"
-            style="@style/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Cancel" />
-
-    </RelativeLayout>
- -->
 </LinearLayout>

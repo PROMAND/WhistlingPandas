@@ -25,6 +25,23 @@
         <item name="android:textSize">20dp</item>
     </style>
 
+
+    <style name="textField" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="spinner" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+
     <style name="loginInput" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -66,6 +83,7 @@
 
     <style name="spinnerItem" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">30dp</item>
+        <item name="android:textColor">#fff</item>
     </style>
 
     <style name="textArea" parent="@android:style/TextAppearance.Medium">
