@@ -1,8 +1,18 @@
 package pl.byd.promand.Team4;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import pl.byd.promand.Team4.domain.Task;
+import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
+import pl.byd.promand.Team4.twitter.AddMemberTweet;
+import pl.byd.promand.Team4.twitter.CreateTaskTweet;
+import pl.byd.promand.Team4.twitter.NewProjectTweet;
+import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 import pl.byd.promand.Team4.utils.Constants;
+import pl.byd.promand.Team4.utils.MainModel;
+import pl.byd.promand.Team4.utils.TestDataPopulator;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
@@ -67,6 +77,46 @@ public class LoginActivity extends SherlockActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				// sendTweet("Tweeting Fun");
+				/*
+				List<String> marshaledTweets = TestDataPopulator.getMarshaledProject();
+				for (String cur : marshaledTweets) {
+					sendTweet(cur);
+				}
+				*/
+				
+				List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
+				List<AddMemberTweet> unmarshalledAddMemberTweets = new ArrayList<AddMemberTweet>();
+				List<CreateTaskTweet> unmarshalledCreateTaskTweets = new ArrayList<CreateTaskTweet>();
+				List<UpdateTaskTweet> unamrshalledUpdateTaskTweets = new ArrayList<UpdateTaskTweet>();
+				
+				ResponseList<Status> retrievedTweets = getTweets();
+				Iterator<Status> it = retrievedTweets.iterator();
+				
+				while(it.hasNext()) {
+					Status curTweet = it.next();
+					String text = curTweet.getText();
+					AbstractTaskManagerTweet cur = AbstractTaskManagerTweet.parseTweet(text);
+						switch (cur.getType()) {
+						case AM:
+							unmarshalledAddMemberTweets.add((AddMemberTweet)cur);
+							break;
+						case CT:
+							unmarshalledCreateTaskTweets.add((CreateTaskTweet)cur);
+							break;
+						case NP:
+							unmarshalledProjectTweets.add((NewProjectTweet)cur);
+							break;
+						case UT:
+							unamrshalledUpdateTaskTweets.add((UpdateTaskTweet)cur);
+							break;
+						default:
+							throw new IllegalArgumentException("Unknown tweet type: " + cur.getType());
+						}
+				}
+				MainModel.getInstance().setState(unamrshalledUpdateTaskTweets, unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets, unmarshalledProjectTweets);
+
+	            Intent iAssigned =new Intent(LoginActivity.this, MainViewActivity.class);
+	            startActivity(iAssigned);
 			}
 
 		});
@@ -78,11 +128,12 @@ public class LoginActivity extends SherlockActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				askOAuth();
+				// askOAuth();
 			}
 
 		});
 
+		askOAuth();
 		// buttonLogin.setOnClickListener(this);
 
 		/**
@@ -153,6 +204,8 @@ public class LoginActivity extends SherlockActivity {
 					Toast.LENGTH_LONG).show();
 			this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
 					.parse(requestToken.getAuthenticationURL())));
+			// TODO retrieve tweets and build project
+			
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}

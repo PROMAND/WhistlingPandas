@@ -39,6 +39,21 @@ public class TestDataPopulator {
 	public static int getNextTestDataTaskId() {
 		return counter++;
 	}
+	
+	public static List<String> getMarshaledProject() {
+		List<AbstractTaskManagerTweet> tweetsToMarshal = new ArrayList<AbstractTaskManagerTweet>();
+		// Creating test data
+		tweetsToMarshal.add(TestDataPopulator.generateNewProjectTweet());
+		tweetsToMarshal.addAll(TestDataPopulator.generateTaskCreationTweets());
+		tweetsToMarshal.addAll(TestDataPopulator.generateAddMemberTweets());
+		tweetsToMarshal.addAll(TestDataPopulator.generateUpdateTaskTweets());
+		// Test marshaling test tweets
+		List<String> ret = new ArrayList<String>();
+		for (AbstractTaskManagerTweet cur : tweetsToMarshal) {
+			ret.add(cur.getTweet());
+		}
+		return ret;
+	}
 
 	/**
 	 * 
