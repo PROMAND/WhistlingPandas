@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text="Assignee 1"
                 android:layout_below="@id/id_projectname"
-
+android:textColor="@color/taskitem_assigneeanddeadline"
                 android:textSize="20dp"
                 />
 
@@ -58,6 +58,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:textSize="20dp"
+android:textColor="@color/taskitem_assigneeanddeadline"
                 />
 
     </RelativeLayout>
