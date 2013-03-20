@@ -12,45 +12,46 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class TaskStateAdapter extends ArrayAdapter<TaskState> {
-	private final Context context;
-	private final List<TaskState> values;
-	private final Resources resources;
-	// private Spinner typeSpinner;
+    private final Context context;
+    private final List<TaskState> values;
+    private final Resources resources;
+    // private Spinner typeSpinner;
 
-	public TaskStateAdapter(Context context, List<TaskState> tasksList, Resources resources) { // , Spinner typeSpinner) {
-		super(context, R.layout.task_item);
-		this.context = context;
-		this.values = tasksList;
-		this.resources = resources;
-		// this.typeSpinner = typeSpinner;
-	}
+    public TaskStateAdapter(Context context, List<TaskState> tasksList, Resources resources) { // , Spinner typeSpinner) {
+        super(context, R.layout.spinner_item, R.id.spinner_item);
+        this.context = context;
+        this.values = tasksList;
+        this.resources = resources;
+        // this.typeSpinner = typeSpinner;
+    }
 
-	@Override
-	public int getCount() {
-		return values.size();
-	}
+    @Override
+    public int getCount() {
+        return values.size();
+    }
 
-	@Override
-	public int getPosition(TaskState item) {
-		return values.indexOf(item);
-	}
+    @Override
+    public int getPosition(TaskState item) {
+        return values.indexOf(item);
+    }
 
-	@Override
-	public TaskState getItem(int position) {
-		return values.get(position);
-	}
+    @Override
+    public TaskState getItem(int position) {
+        return values.get(position);
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		TextView textView = (TextView) View.inflate(context, android.R.layout.simple_spinner_item, null);
-		int idText = values.get(position).getFormString();
-		String text = resources.getString(idText);  
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = View.inflate(context, R.layout.spinner_item, null);
+        TextView textView = (TextView) view.findViewById(R.id.spinner_item);
+        int idText = values.get(position).getFormString();
+        String text = resources.getString(idText);
         textView.setText(text);
-        return textView;
-	}
-	
-	@Override
-	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		return getView(position, convertView, parent);
-	}
+        return view;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return getView(position, convertView, parent);
+    }
 }

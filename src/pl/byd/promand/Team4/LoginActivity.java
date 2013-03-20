@@ -19,17 +19,13 @@ import com.actionbarsherlock.app.SherlockActivity;
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
-import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 import twitter4j.UserList;
-import twitter4j.UserStreamListener;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
@@ -60,7 +56,6 @@ public class LoginActivity extends SherlockActivity {
 	private static Twitter twitter;
 	private static RequestToken requestToken;
 	private static SharedPreferences mSharedPreferences;
-	private static TwitterStream twitterStream;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +172,6 @@ public class LoginActivity extends SherlockActivity {
 					.setOAuthConsumerSecret(Constants.CONSUMER_SECRET)
 					.setOAuthAccessToken(oauthAccessToken)
 					.setOAuthAccessTokenSecret(oAuthAccessTokenSecret).build();
-			twitterStream = new TwitterStreamFactory(conf).getInstance();
 
 			buttonLogin.setText(R.string.label_disconnect);
 			getTweetButton.setEnabled(true);

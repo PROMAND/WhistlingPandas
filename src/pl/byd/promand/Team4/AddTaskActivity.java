@@ -20,7 +20,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Gravity;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -92,15 +95,14 @@ public class AddTaskActivity extends SherlockActivity {
             String priorityText = getResources().getString(item.getFormString());
             rb.setText(priorityText);
             rb.setTextSize(30);
+
             rb.setId(item.getFormString());
             if (task != null && item.equals(task.getPriority())) {
             	rb.setChecked(true);
             }
             rg.addView(rb);
         }
-        //rg.setSelected(true);
-        
-        
+
         // Task deadline
         DatePicker deadlinePicker=(DatePicker) findViewById(R.id.deadline);
         Calendar cal=Calendar.getInstance();

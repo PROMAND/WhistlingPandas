@@ -9,12 +9,13 @@
             android:summary="Change settings"
             android:title="Settings" >
 
-        <!--<ListPreference-->
-                <!--android:id="@+id/currentProject"-->
-                <!--android:key="currentProject"-->
-                <!--android:entries="@array/updatesOptions"-->
-                <!--android:entryValues="@array/updatesOptionsValues"-->
-                <!--/>-->
+        <EditTextPreference
+                android:title="Enter your name"
+                android:key="creator"
+                android:summary="Your name will be used to distinguish task creators"
+                android:defaultValue=""
+         />
+
 
         <ListPreference
                 android:id="@+id/updates"

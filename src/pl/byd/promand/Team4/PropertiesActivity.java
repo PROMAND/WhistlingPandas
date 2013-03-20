@@ -28,6 +28,23 @@ public class PropertiesActivity extends PreferenceActivity {
 
         sp = getApplicationContext().getSharedPreferences("setting", 0);
 
+        EditTextPreference creatorPref = (EditTextPreference) findPreference("creator");
+        if (creatorPref.getText() != null) {
+            creatorPref.setSummary(creatorPref.getText());
+        }
+        creatorPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                preference.setSummary(o.toString());
+                return true;
+            }
+        });
+        SharedPreferences.Editor editor = sp.edit();
+
+        editor.putString("creator", creatorPref.getText());
+        editor.commit();
+
+
         ListPreference updatesPref = (ListPreference) findPreference("updates");
         if (updatesPref.getValue() != null) {
             updatesPref.setSummary(updatesPref.getValue().toString());

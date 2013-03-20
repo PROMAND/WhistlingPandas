@@ -82,13 +82,13 @@
                 android:text="Priority"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 style="@style/label"/>
-            
+
             <RadioGroup
                 android:id="@+id/radioPriority"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
             </RadioGroup>
             <TextView
                     style="@style/label"

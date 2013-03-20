@@ -21,46 +21,47 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class TaskTypeAdapter extends ArrayAdapter<TaskType> {
-	private final Context context;
-	private final List<TaskType> values;
-	private final Resources resources;
-	// private Spinner typeSpinner;
+    private final Context context;
+    private final List<TaskType> values;
+    private final Resources resources;
+    // private Spinner typeSpinner;
 
-	public TaskTypeAdapter(Context context, List<TaskType> tasksList, Resources resources) { // , Spinner typeSpinner) {
-		super(context, R.layout.task_item);
-		this.context = context;
-		this.values = tasksList;
-		this.resources = resources;
-		// this.typeSpinner = typeSpinner;
-	}
+    public TaskTypeAdapter(Context context, List<TaskType> tasksList, Resources resources) { // , Spinner typeSpinner) {
+        super(context, R.layout.spinner_item, R.id.spinner_item);
+        this.context = context;
+        this.values = tasksList;
+        this.resources = resources;
+        // this.typeSpinner = typeSpinner;
+    }
 
-	@Override
-	public int getCount() {
-		return values.size();
-	}
+    @Override
+    public int getCount() {
+        return values.size();
+    }
 
-	@Override
-	public int getPosition(TaskType item) {
-		return values.indexOf(item);
-	}
+    @Override
+    public int getPosition(TaskType item) {
+        return values.indexOf(item);
+    }
 
-	@Override
-	public TaskType getItem(int position) {
-		return values.get(position);
-	}
+    @Override
+    public TaskType getItem(int position) {
+        return values.get(position);
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		TextView textView = (TextView) View.inflate(context, android.R.layout.simple_spinner_item, null);
-		int idText = values.get(position).getFormString();
-		String text = resources.getString(idText);  
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = View.inflate(context, R.layout.spinner_item, null);
+        TextView textView = (TextView) view.findViewById(id.spinner_item);
+        int idText = values.get(position).getFormString();
+        String text = resources.getString(idText);
         textView.setText(text);
-        return textView;
-	}
-	
-	@Override
-	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		return getView(position, convertView, parent);
-	}
+        return view;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return getView(position, convertView, parent);
+    }
 }
