@@ -282,7 +282,7 @@ public class MainModel {
 	
 	/**
 	 * Retrieves user twitter post form twitter
-	 * @return unsorted twitter posts
+	 * @return twitter posts
 	 */
 	
 	public ResponseList<Status> getTweets() {
