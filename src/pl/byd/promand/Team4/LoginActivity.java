@@ -95,23 +95,27 @@ public class LoginActivity extends SherlockActivity {
 				while(it.hasNext()) {
 					Status curTweet = it.next();
 					String text = curTweet.getText();
+					try {
 					AbstractTaskManagerTweet cur = AbstractTaskManagerTweet.parseTweet(text);
-						switch (cur.getType()) {
-						case AM:
-							unmarshalledAddMemberTweets.add((AddMemberTweet)cur);
-							break;
-						case CT:
-							unmarshalledCreateTaskTweets.add((CreateTaskTweet)cur);
-							break;
-						case NP:
-							unmarshalledProjectTweets.add((NewProjectTweet)cur);
-							break;
-						case UT:
-							unamrshalledUpdateTaskTweets.add((UpdateTaskTweet)cur);
-							break;
-						default:
-							throw new IllegalArgumentException("Unknown tweet type: " + cur.getType());
-						}
+					switch (cur.getType()) {
+					case AM:
+						unmarshalledAddMemberTweets.add((AddMemberTweet)cur);
+						break;
+					case CT:
+						unmarshalledCreateTaskTweets.add((CreateTaskTweet)cur);
+						break;
+					case NP:
+						unmarshalledProjectTweets.add((NewProjectTweet)cur);
+						break;
+					case UT:
+						unamrshalledUpdateTaskTweets.add((UpdateTaskTweet)cur);
+						break;
+					default:
+						throw new IllegalArgumentException("Unknown tweet type: " + cur.getType());
+					}
+					} catch (Exception e) {
+						Log.i("Twitter", "Parsing tweet failed: " + e.getMessage());
+					}
 				}
 				MainModel.getInstance().setState(unamrshalledUpdateTaskTweets, unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets, unmarshalledProjectTweets);
 
