@@ -58,6 +58,7 @@ public class TaskListAdapter extends ArrayAdapter<ITaskListItem> {
 					.findViewById(R.id.id_projectname);
 			Task currentTask = (Task) current;
 			tvProjectName.setText(currentTask.getTitle());
+			// Log.i("THREADS", "title=" + currentTask.getTitle());
 
 			// Assignee
 			TextView tvAssignee = (TextView) rowView

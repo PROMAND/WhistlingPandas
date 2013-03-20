@@ -3,6 +3,8 @@ package pl.byd.promand.Team4;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
 import pl.byd.promand.Team4.twitter.AddMemberTweet;
 import pl.byd.promand.Team4.twitter.CreateTaskTweet;
@@ -132,9 +134,9 @@ public class LoginActivity extends SherlockActivity {
 
 		ResponseList<Status> retrievedTweets = MainModel.getInstance()
 				.getTweets();
-		Log.i("THREADS", "size=" + retrievedTweets.size());
 		Iterator<Status> it = retrievedTweets.iterator();
 
+		try {
 		while (it.hasNext()) {
 			Status curTweet = it.next();
 			String text = curTweet.getText();
@@ -145,7 +147,10 @@ public class LoginActivity extends SherlockActivity {
 				unmarshalledAddMemberTweets.add((AddMemberTweet) cur);
 				break;
 			case CT:
-				unmarshalledCreateTaskTweets.add((CreateTaskTweet) cur);
+				CreateTaskTweet curCreateTaskTweet = (CreateTaskTweet) cur;
+				Task curTask = curCreateTaskTweet.getTask();
+				unmarshalledCreateTaskTweets.add(curCreateTaskTweet);
+				curTask.setId(curTweet.getId());
 				break;
 			case NP:
 				unmarshalledProjectTweets.add((NewProjectTweet) cur);
@@ -158,11 +163,12 @@ public class LoginActivity extends SherlockActivity {
 						+ cur.getType());
 			}
 		}
+		} catch (Exception e) {
+			Log.e("Parsing", "Parsing tweet failed: " + e);
+		}
 		MainModel.getInstance().setState(unamrshalledUpdateTaskTweets,
 				unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets,
 				unmarshalledProjectTweets);
-
-		Log.i("THREADS", "STARTING INTENT");
 		hideProgressDialog();
 		Intent iAssigned = new Intent(LoginActivity.this,
 				MainViewActivity.class);

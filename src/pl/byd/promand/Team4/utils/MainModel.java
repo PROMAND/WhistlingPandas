@@ -72,6 +72,7 @@ public class MainModel {
 	 * Private constructor for the singleton instance
 	 */
 	private MainModel() {
+		/*
 		List<AbstractTaskManagerTweet> tweetsToMarshal = new ArrayList<AbstractTaskManagerTweet>();
 		// Creating test data
 		tweetsToMarshal.add(TestDataPopulator.generateNewProjectTweet());
@@ -131,6 +132,7 @@ public class MainModel {
 		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
 			updateTask(cur);
 		}
+		*/
 	}
 	
 	public void setYourself(String yourself) {
@@ -210,8 +212,9 @@ public class MainModel {
 		default:
 			throw new IllegalArgumentException("Unknown view mode: " + tasksViewMode);
 		}
+		Log.i("THREADS", "main model, returning " + tasksAsList.size());
 		/*
-		
+		 9,223,372,036,854,775,807
 		List<String> parsed = new ArrayList<String>();
 		for (Task cur : tasksAsListBeforeParsing) {
 			CreateTaskTweet ctt = new CreateTaskTweet(cur);
@@ -258,24 +261,22 @@ public class MainModel {
 			List<AddMemberTweet> unmarshalledAddMemberTweets,
 			List<CreateTaskTweet> unmarshalledCreateTaskTweets,
 			List<NewProjectTweet> unmarshalledProjectTweets) {
-		Log.i("THREADS", "SETTING STATE");
 		tasksMap.clear();
-		// Setting test state as context state
+		// Setting state as context state
 		project = unmarshalledProjectTweets.get(0).getProject();
 		for (AddMemberTweet cur: unmarshalledAddMemberTweets) {
 			project.getMembers().add(cur.getMemberName());
 		}
-		Long idGenerator = Long.valueOf(0);
 		for (CreateTaskTweet cur : unmarshalledCreateTaskTweets) {
 			Task curTask = cur.getTask();
-			curTask.setId(idGenerator);
-			tasksMap.put(
-					// cur.getTask().getId() // TODO should come from twitter
-					idGenerator, curTask);
-			idGenerator = Long.valueOf(idGenerator + 1);
+			tasksMap.put(cur.getTask().getId(), curTask);
 		}
+		try {
 		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
 			updateTask(cur);
+		}
+		} catch (Exception e) {
+			Log.e("Parsing", "Updating task failed: " + e.getMessage());
 		}
 	}
 	
