@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="5dp" 
-    android:background="#555"
+    android:background="#333"
     android:orientation="horizontal"
     >
     
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Separator"
         android:textSize="30px"
+        android:textColor="#eee"
          />
 
 </LinearLayout>
