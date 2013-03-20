@@ -8,8 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import pl.byd.promand.Team4.LoginActivity;
 import pl.byd.promand.Team4.activitylist.ITaskListItem;
 import pl.byd.promand.Team4.activitylist.TaskListSeparator;
 import pl.byd.promand.Team4.domain.Project;
@@ -23,6 +27,11 @@ import pl.byd.promand.Team4.twitter.CreateTaskTweet;
 import pl.byd.promand.Team4.twitter.NewProjectTweet;
 import pl.byd.promand.Team4.twitter.TweetType;
 import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
+import twitter4j.Paging;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 /**
  * 
@@ -50,6 +59,8 @@ public class MainModel {
 	 */
 	private static MainModel _instance = new MainModel();
 	
+	public static Twitter twitter;
+	public static SharedPreferences mSharedPreferences;
 	/**
 	 * Private constructor for the singleton instance
 	 */
@@ -222,6 +233,67 @@ public class MainModel {
 		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
 			updateTask(cur);
 		}
+	}
+	
+	/**
+	 * Retrieves user twitter post form twitter
+	 * @return unsorted twitter posts
+	 */
+	
+	public ResponseList<Status> getTweets() {
+		try {
+			Paging paging = new Paging(1, 1000);
+			ResponseList<Status> ht = twitter.getUserTimeline(paging); // getHomeTimeline();
+			String name = Thread.currentThread().getName();
+			Log.i("thread", name);
+			// ht.wait();
+			return ht;
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Seding twitter post
+	 * @param tweet String post message.
+	 * @return id of post upon success, 0 on failure.
+	 */
+	
+	public long sendTweet(String tweet) {
+
+		try {
+			Status response = twitter.updateStatus(tweet);
+			return response.getId();
+
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return 0;
+
+	}
+	
+
+	public Status getTweetById(long tweetID) {
+		try {
+			Status tweet = twitter.showStatus(tweetID);
+			if (tweet == null) { //
+				return null;
+			} else {
+				return tweet;
+			}
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void disconnectTwitter() {
+		SharedPreferences.Editor editor = mSharedPreferences.edit();
+		editor.remove(Constants.PREF_KEY_TOKEN);
+		editor.remove(Constants.PREF_KEY_SECRET);
+
+		editor.commit();
 	}
 
 }

@@ -15,26 +15,31 @@ import pl.byd.promand.Team4.utils.MainModel;
 import pl.byd.promand.Team4.utils.TestDataPopulator;
 
 import com.actionbarsherlock.app.SherlockActivity;
-
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
+import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 import twitter4j.UserList;
+import twitter4j.UserStreamListener;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -56,75 +61,34 @@ public class LoginActivity extends SherlockActivity {
 	private static Twitter twitter;
 	private static RequestToken requestToken;
 	private static SharedPreferences mSharedPreferences;
+	ProgressDialog pDialog;
+	private boolean running = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
-		mSharedPreferences = getSharedPreferences(Constants.PREFERENCE_NAME,
-				MODE_PRIVATE);
+		MainModel.mSharedPreferences = getSharedPreferences(
+				Constants.PREFERENCE_NAME, MODE_PRIVATE);
+
+		mSharedPreferences = MainModel.mSharedPreferences;
+
 		scrollView = (ScrollView) findViewById(R.id.scrollView);
 		tweetText = (TextView) findViewById(R.id.tweetText);
 		getTweetButton = (Button) findViewById(R.id.getTweet);
-		
-		this.disconnectTwitter();
-		
 		getTweetButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// sendTweet("Tweeting Fun");
-				/*
-				List<String> marshaledTweets = TestDataPopulator.getMarshaledProject();
-				for (String cur : marshaledTweets) {
-					sendTweet(cur);
-				}
-				*/
-				
-				List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
-				List<AddMemberTweet> unmarshalledAddMemberTweets = new ArrayList<AddMemberTweet>();
-				List<CreateTaskTweet> unmarshalledCreateTaskTweets = new ArrayList<CreateTaskTweet>();
-				List<UpdateTaskTweet> unamrshalledUpdateTaskTweets = new ArrayList<UpdateTaskTweet>();
-				
-				ResponseList<Status> retrievedTweets = getTweets();
-				Log.i("THREADS", "size=" + retrievedTweets.size());
-				Iterator<Status> it = retrievedTweets.iterator();
-				
-				while(it.hasNext()) {
-					Status curTweet = it.next();
-					String text = curTweet.getText();
-					try {
-					AbstractTaskManagerTweet cur = AbstractTaskManagerTweet.parseTweet(text);
-					switch (cur.getType()) {
-					case AM:
-						unmarshalledAddMemberTweets.add((AddMemberTweet)cur);
-						break;
-					case CT:
-						unmarshalledCreateTaskTweets.add((CreateTaskTweet)cur);
-						break;
-					case NP:
-						unmarshalledProjectTweets.add((NewProjectTweet)cur);
-						break;
-					case UT:
-						unamrshalledUpdateTaskTweets.add((UpdateTaskTweet)cur);
-						break;
-					default:
-						throw new IllegalArgumentException("Unknown tweet type: " + cur.getType());
-					}
-					} catch (Exception e) {
-						Log.i("Twitter", "Parsing tweet failed: " + e.getMessage());
-					}
-				}
-				MainModel.getInstance().setState(unamrshalledUpdateTaskTweets, unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets, unmarshalledProjectTweets);
-
-				Log.i("THREADS", "STARTING INTENT");
-	            Intent iAssigned =new Intent(LoginActivity.this, MainViewActivity.class);
-	            startActivity(iAssigned);
+				// MainModel.getInstance().sendTweet("MyAwesomneTweet");
+				fetchTweets();
 			}
-
 		});
+
+		MainModel.getInstance().disconnectTwitter();
+		Log.e("AWESOME", "RESUMDED");
 
 		buttonLogin = (Button) findViewById(R.id.twitterLogin);
 
@@ -132,13 +96,10 @@ public class LoginActivity extends SherlockActivity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				askOAuth();
 			}
 
 		});
-		// buttonLogin.setOnClickListener(this);
-
 		/**
 		 * Handle OAuth Callback
 		 */
@@ -164,24 +125,19 @@ public class LoginActivity extends SherlockActivity {
 	protected void onResume() {
 		super.onResume();
 
+		if (running) {
+			fetchTweets();
+		}
+
 		if (isConnected()) {
-			String oauthAccessToken = mSharedPreferences.getString(
-					Constants.PREF_KEY_TOKEN, "");
-			String oAuthAccessTokenSecret = mSharedPreferences.getString(
-					Constants.PREF_KEY_SECRET, "");
-
-			ConfigurationBuilder confbuilder = new ConfigurationBuilder();
-			Configuration conf = confbuilder
-					.setOAuthConsumerKey(Constants.CONSUMER_KEY)
-					.setOAuthConsumerSecret(Constants.CONSUMER_SECRET)
-					.setOAuthAccessToken(oauthAccessToken)
-					.setOAuthAccessTokenSecret(oAuthAccessTokenSecret).build();
-
 			buttonLogin.setText(R.string.label_disconnect);
 			getTweetButton.setEnabled(true);
 		} else {
 			buttonLogin.setText(R.string.label_connect);
 		}
+
+		running = true;
+
 	}
 
 	/**
@@ -198,7 +154,8 @@ public class LoginActivity extends SherlockActivity {
 		configurationBuilder.setOAuthConsumerKey(Constants.CONSUMER_KEY);
 		configurationBuilder.setOAuthConsumerSecret(Constants.CONSUMER_SECRET);
 		Configuration configuration = configurationBuilder.build();
-		twitter = new TwitterFactory(configuration).getInstance();
+		MainModel.twitter = new TwitterFactory(configuration).getInstance();
+		twitter = MainModel.twitter;
 
 		try {
 			requestToken = twitter.getOAuthRequestToken(Constants.CALLBACK_URL);
@@ -207,7 +164,7 @@ public class LoginActivity extends SherlockActivity {
 			this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
 					.parse(requestToken.getAuthenticationURL())));
 			// TODO retrieve tweets and build project
-			
+
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
@@ -216,55 +173,91 @@ public class LoginActivity extends SherlockActivity {
 	/**
 	 * Remove Token, Secret from preferences
 	 */
-	public void disconnectTwitter() {
-		SharedPreferences.Editor editor = mSharedPreferences.edit();
-		editor.remove(Constants.PREF_KEY_TOKEN);
-		editor.remove(Constants.PREF_KEY_SECRET);
 
-		editor.commit();
-	}
+	private void fetchTweets() {
+		showProgressDialog();
+		List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
+		List<AddMemberTweet> unmarshalledAddMemberTweets = new ArrayList<AddMemberTweet>();
+		List<CreateTaskTweet> unmarshalledCreateTaskTweets = new ArrayList<CreateTaskTweet>();
+		List<UpdateTaskTweet> unamrshalledUpdateTaskTweets = new ArrayList<UpdateTaskTweet>();
 
-	// Tweet methods
+		ResponseList<Status> retrievedTweets = MainModel.getInstance()
+				.getTweets();
+		Log.i("THREADS", "size=" + retrievedTweets.size());
+		Iterator<Status> it = retrievedTweets.iterator();
 
-	public ResponseList<Status> getTweets() {
-		try {
-			Paging paging = new Paging(1, 1000);
-			ResponseList<Status> ht = twitter.getUserTimeline(paging); // getHomeTimeline();
-			String name = Thread.currentThread().getName();
-			Log.i("thread", name);
-			// ht.wait();
-			return ht;
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static long sendTweet(String tweet) {
-
-		try {
-			Status response = twitter.updateStatus(tweet);
-			return response.getId();
-
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-		return 0;
-
-	}
-
-	public Status getTweetById(long tweetID) {
-		try {
-			Status tweet = twitter.showStatus(tweetID);
-			if (tweet == null) { //
-				return null;
-			} else {
-				return tweet;
+		while (it.hasNext()) {
+			Status curTweet = it.next();
+			String text = curTweet.getText();
+			AbstractTaskManagerTweet cur = AbstractTaskManagerTweet
+					.parseTweet(text);
+			switch (cur.getType()) {
+			case AM:
+				unmarshalledAddMemberTweets.add((AddMemberTweet) cur);
+				break;
+			case CT:
+				unmarshalledCreateTaskTweets.add((CreateTaskTweet) cur);
+				break;
+			case NP:
+				unmarshalledProjectTweets.add((NewProjectTweet) cur);
+				break;
+			case UT:
+				unamrshalledUpdateTaskTweets.add((UpdateTaskTweet) cur);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown tweet type: "
+						+ cur.getType());
 			}
-		} catch (TwitterException e) {
-			e.printStackTrace();
 		}
-		return null;
+		MainModel.getInstance().setState(unamrshalledUpdateTaskTweets,
+				unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets,
+				unmarshalledProjectTweets);
+
+		Log.i("THREADS", "STARTING INTENT");
+		hideProgressDialog();
+		Intent iAssigned = new Intent(LoginActivity.this,
+				MainViewActivity.class);
+		startActivity(iAssigned);
 	}
+
+	private void showProgressDialog() {
+		pDialog = new ProgressDialog(this);
+		pDialog.setMessage("Fetching tweets. Please Wait.");
+		pDialog.setIndeterminate(false);
+		pDialog.setCancelable(false);
+		pDialog.show();
+	}
+
+	private void hideProgressDialog() {
+		pDialog.dismiss();
+	}
+
+	// class GetTask extends AsyncTask<Object, Void, String> {
+	// ProgressDialog mDialog = null;
+	//
+	// @Override
+	// protected void onPreExecute() {
+	// super.onPreExecute();
+	//
+	// mDialog = new ProgressDialog(LoginActivity.this);
+	// mDialog.setMessage("Please wait...");
+	// mDialog.show();
+	// }
+	//
+	// @Override
+	// protected String doInBackground(Object... params) {
+	//
+	//
+	// return null;
+	// // do stuff in background : fetch response
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(String result) {
+	// super.onPostExecute(result);
+	// setProgressBarIndeterminateVisibility(false);
+	// // mDialog.dismiss();
+	// }
+	// }
 
 }
