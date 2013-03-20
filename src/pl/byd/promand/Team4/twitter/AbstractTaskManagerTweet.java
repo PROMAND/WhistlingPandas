@@ -68,7 +68,7 @@ public abstract class AbstractTaskManagerTweet {
 		case NP:
 			// TODO Where get yourself from? 
 			String projectName = strings[1];
-			Project project = new Project(projectName, new ArrayList<String>(), "you yourself");
+			Project project = new Project(projectName, new ArrayList<String>());
 			return new NewProjectTweet(project);
 		case AM:
 			String memberName = strings[1];
