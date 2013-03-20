@@ -1,5 +1,6 @@
 package pl.byd.promand.Team4;
 
+import pl.byd.promand.Team4.utils.MainModel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +32,7 @@ public class PropertiesActivity extends PreferenceActivity {
         EditTextPreference creatorPref = (EditTextPreference) findPreference("creator");
         if (creatorPref.getText() != null) {
             creatorPref.setSummary(creatorPref.getText());
+            MainModel.getInstance().setYourself(creatorPref.getText());
         }
         creatorPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

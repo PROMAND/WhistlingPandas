@@ -53,6 +53,8 @@ public class MainModel {
 	 * Currently active project
 	 */
 	private Project project;
+
+	private TasksViewMode tasksViewMode = TasksViewMode.ALL;
 	
 	/**
 	 * Singleton instance
@@ -61,6 +63,11 @@ public class MainModel {
 	
 	public static Twitter twitter;
 	public static SharedPreferences mSharedPreferences;
+	/**
+	 * Your own username
+	 */
+	private String yourself
+	;
 	/**
 	 * Private constructor for the singleton instance
 	 */
@@ -105,7 +112,10 @@ public class MainModel {
 			}
 		}
 		// Setting test state as context state
-		project = unmarshalledProjectTweets.get(0).getProject();
+		Project tweetedProject = unmarshalledProjectTweets.get(0).getProject();
+		String projectName = tweetedProject.getName();
+		// String yourself = unmarshalledAddMemberTweets.get(0).getMemberName();
+		project = new Project(projectName, tweetedProject.getMembers());
 		for (AddMemberTweet cur: unmarshalledAddMemberTweets) {
 			project.getMembers().add(cur.getMemberName());
 		}
@@ -121,6 +131,14 @@ public class MainModel {
 		for (UpdateTaskTweet cur : unamrshalledUpdateTaskTweets) {
 			updateTask(cur);
 		}
+	}
+	
+	public void setYourself(String yourself) {
+		this.yourself = yourself;
+	}
+	
+	public String getYourself() {
+		return yourself;
 	}
 	
 	/**
@@ -166,6 +184,32 @@ public class MainModel {
 		= new ArrayList<Task>()
 		;
 		tasksAsList.addAll(tasksMap.values());
+		String me = getYourself();
+		switch (this.tasksViewMode) {
+		case ALL:
+			// Nothing to do
+			break;
+		case CREATED_BY_ME:
+			List<Task> tmp = new ArrayList<Task>();
+			for (Task cur : tasksAsList) {
+				if (cur.getCreator().equals(me)) {
+					tmp.add(cur);
+				}
+			}
+			tasksAsList = tmp;
+			break;
+		case ASSIGNED_TO_ME:
+			List<Task> tmp2 = new ArrayList<Task>();
+			for (Task cur : tasksAsList) {
+				if (cur.getAssignee().equals(me)) {
+					tmp2.add(cur);
+				}
+			}
+			tasksAsList = tmp2;
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown view mode: " + tasksViewMode);
+		}
 		/*
 		
 		List<String> parsed = new ArrayList<String>();
@@ -294,6 +338,10 @@ public class MainModel {
 		editor.remove(Constants.PREF_KEY_SECRET);
 
 		editor.commit();
+	}
+
+	public void setTasksViewMode(TasksViewMode mode) {
+		this.tasksViewMode  = mode;
 	}
 
 }

@@ -121,7 +121,7 @@ public class TestDataPopulator {
 	 */
 	public static NewProjectTweet generateNewProjectTweet() {
 		String projectName = "UI revamp";
-		Project project = new Project(projectName, new ArrayList<String>(), "testself 1");
+		Project project = new Project(projectName, new ArrayList<String>());
 		NewProjectTweet ret = new NewProjectTweet(project);
 		return ret;
 	}

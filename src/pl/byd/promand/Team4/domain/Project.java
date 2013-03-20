@@ -8,19 +8,13 @@ public class Project {
 	/**
 	 * Name of the project
 	 */
-	name,
-	/**
-	 * Your own username
-	 */
-	yourself
-	;
+	name;
 	
 	private final List<String> members;
 	
-	public Project(String name, List<String> members, String yourself) {
+	public Project(String name, List<String> members) {
 		this.name = name;
 		this.members = members;
-		this.yourself = yourself;
 	}
 
 	public String getName() {
@@ -29,10 +23,6 @@ public class Project {
 
 	public List<String> getMembers() {
 		return members;
-	}
-	
-	public String getYourself() {
-		return yourself;
 	}
 
 }

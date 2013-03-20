@@ -14,6 +14,7 @@ import pl.byd.promand.Team4.domain.TaskState;
 import pl.byd.promand.Team4.domain.TaskType;
 import pl.byd.promand.Team4.utils.Constants;
 import pl.byd.promand.Team4.utils.MainModel;
+import pl.byd.promand.Team4.utils.TasksViewMode;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,14 +40,17 @@ public class MainViewActivity extends SherlockListActivity {
             startActivityForResult(addTaskActivity, Constants.REFRESH_MAIN_SCREEN);
 			return true;
         case R.id.allTasks:
+        	MainModel.getInstance().setTasksViewMode(TasksViewMode.ALL);
             Intent allTasks =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(allTasks);
             return true;
         case R.id.assignedToMe:
+        	MainModel.getInstance().setTasksViewMode(TasksViewMode.ASSIGNED_TO_ME);
             Intent assignedToMe =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(assignedToMe);
             return true;
         case R.id.iAssigned:
+        	MainModel.getInstance().setTasksViewMode(TasksViewMode.CREATED_BY_ME);
             Intent iAssigned =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(iAssigned);
             return true;
