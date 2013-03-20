@@ -9,6 +9,7 @@ import pl.byd.promand.Team4.R.id;
 import pl.byd.promand.Team4.R.layout;
 import pl.byd.promand.Team4.domain.Task;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,11 +71,12 @@ public class TaskListAdapter extends ArrayAdapter<ITaskListItem> {
 			// Log.i("deadline", deadLineString);
 			tvDeadline.setText(deadLineString);
 
-			// Deadline
+			// Priority
 			LinearLayout tvPriority = (LinearLayout) rowView
 					.findViewById(R.id.id_priority);
-			tvPriority.setBackgroundColor(currentTask.getPriority().getColor());
-
+			GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, currentTask.getPriority().getColors());
+			tvPriority.setBackgroundDrawable(g);
+			
 			// Image for task type
 			ImageView iTaskType = (ImageView) rowView.findViewById(R.id.logo);
 			iTaskType.setImageResource(currentTask.getType().getImage());
