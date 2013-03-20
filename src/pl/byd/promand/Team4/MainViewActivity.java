@@ -34,29 +34,35 @@ public class MainViewActivity extends SherlockListActivity {
         case R.id.settingsView:
             Intent settingsView =new Intent(MainViewActivity.this, PropertiesActivity.class);
             startActivity(settingsView);
+    		MainViewActivity.this.finish();
             return true;
 		case R.id.addTask:
             Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
             startActivityForResult(addTaskActivity, Constants.REFRESH_MAIN_SCREEN);
+    		MainViewActivity.this.finish();
 			return true;
         case R.id.allTasks:
         	MainModel.getInstance().setTasksViewMode(TasksViewMode.ALL);
             Intent allTasks =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(allTasks);
+    		MainViewActivity.this.finish();
             return true;
         case R.id.assignedToMe:
         	MainModel.getInstance().setTasksViewMode(TasksViewMode.ASSIGNED_TO_ME);
             Intent assignedToMe =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(assignedToMe);
+    		MainViewActivity.this.finish();
             return true;
         case R.id.iAssigned:
         	MainModel.getInstance().setTasksViewMode(TasksViewMode.CREATED_BY_ME);
             Intent iAssigned =new Intent(MainViewActivity.this, MainViewActivity.class);
             startActivity(iAssigned);
+    		MainViewActivity.this.finish();
             return true;
 		case R.id.invite:
             Intent inviteActivity =new Intent(MainViewActivity.this, InviteActivity.class);
             startActivity(inviteActivity);
+    		MainViewActivity.this.finish();
 			return true;
 		case R.id.refresh:
             //refreshes only local taskMap, not twitter

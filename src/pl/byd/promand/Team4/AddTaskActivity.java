@@ -239,37 +239,15 @@ public class AddTaskActivity extends SherlockActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.main_menu_activity, menu);
+        getSupportMenuInflater().inflate(R.menu.menu_onetaskview, menu);
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.settingsView:
-                Intent settingsView =new Intent(AddTaskActivity.this, PropertiesActivity.class);
-                startActivity(settingsView);
-                return true;
-            case R.id.addTask:
-                Intent addTaskActivity =new Intent(AddTaskActivity.this, AddTaskActivity.class);
-                startActivity(addTaskActivity);
-                return true;
-            case R.id.allTasks:
+            case R.id.menu_item_back:
                 Intent allTasks =new Intent(AddTaskActivity.this, MainViewActivity.class);
                 startActivity(allTasks);
-                return true;
-            case R.id.assignedToMe:
-                Intent assignedToMe =new Intent(AddTaskActivity.this, MainViewActivity.class);
-                startActivity(assignedToMe);
-                return true;
-            case R.id.iAssigned:
-                Intent iAssigned =new Intent(AddTaskActivity.this, MainViewActivity.class);
-                startActivity(iAssigned);
-                return true;
-            case R.id.invite:
-                Intent inviteActivity =new Intent(AddTaskActivity.this, InviteActivity.class);
-                startActivity(inviteActivity);
-                return true;
-            case R.id.refresh:
-                System.out.println("refresh");
+        		AddTaskActivity.this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

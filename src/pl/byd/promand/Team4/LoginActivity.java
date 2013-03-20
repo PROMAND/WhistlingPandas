@@ -47,32 +47,17 @@ public class LoginActivity extends SherlockActivity {
 	private static RequestToken requestToken;
 	private static SharedPreferences mSharedPreferences;
 	ProgressDialog pDialog;
-	private boolean running = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-
 		MainModel.mSharedPreferences = getSharedPreferences(
 				Constants.PREFERENCE_NAME, MODE_PRIVATE);
 
 		mSharedPreferences = MainModel.mSharedPreferences;
 
-		scrollView = (ScrollView) findViewById(R.id.scrollView);
-		tweetText = (TextView) findViewById(R.id.tweetText);
-		getTweetButton = (Button) findViewById(R.id.getTweet);
-		getTweetButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				// MainModel.getInstance().sendTweet("MyAwesomneTweet");
-	
-			}
-		});
-
-//		MainModel.getInstance().disconnectTwitter();
+		MainModel.getInstance().disconnectTwitter();
 		/**
 		 * Handle OAuth Callback
 		 */
@@ -96,28 +81,14 @@ public class LoginActivity extends SherlockActivity {
 		
 		if(!isConnected()){
 			askOAuth();
-		}else{
-			fetchTweets();
 		}
-		
 	}
 
 	protected void onResume() {
 		super.onResume();
-
-		if (running) {
+		if(isConnected()){
 			fetchTweets();
 		}
-
-		if (isConnected()) {
-			buttonLogin.setText(R.string.label_disconnect);
-			getTweetButton.setEnabled(true);
-		} else {
-			buttonLogin.setText(R.string.label_connect);
-		}
-
-		running = true;
-
 	}
 
 	/**
@@ -195,6 +166,8 @@ public class LoginActivity extends SherlockActivity {
 		hideProgressDialog();
 		Intent iAssigned = new Intent(LoginActivity.this,
 				MainViewActivity.class);
+		this.finish();
+		
 		startActivity(iAssigned);
 	}
 

@@ -3,15 +3,9 @@
 
 
     <item
-            android:id="@+id/menu_item_save"
+            android:id="@+id/menu_item_back"
             android:orderInCategory="1"
             android:showAsAction="always"
-            android:title="Save"/>
-
-    <item
-            android:id="@+id/menu_item_cancel"
-            android:orderInCategory="2"
-            android:showAsAction="always"
-            android:title="Cancel"/>
+            android:title="Back"/>
     
 </menu>
