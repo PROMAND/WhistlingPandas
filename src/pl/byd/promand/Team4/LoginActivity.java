@@ -3,8 +3,6 @@ package pl.byd.promand.Team4;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import pl.byd.promand.Team4.domain.Task;
 import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
 import pl.byd.promand.Team4.twitter.AddMemberTweet;
 import pl.byd.promand.Team4.twitter.CreateTaskTweet;
@@ -12,34 +10,21 @@ import pl.byd.promand.Team4.twitter.NewProjectTweet;
 import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 import pl.byd.promand.Team4.utils.Constants;
 import pl.byd.promand.Team4.utils.MainModel;
-import pl.byd.promand.Team4.utils.TestDataPopulator;
-
 import com.actionbarsherlock.app.SherlockActivity;
-import twitter4j.DirectMessage;
-import twitter4j.Paging;
 import twitter4j.ResponseList;
-import twitter4j.StallWarning;
 import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.User;
-import twitter4j.UserList;
-import twitter4j.UserStreamListener;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -83,23 +68,11 @@ public class LoginActivity extends SherlockActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				// MainModel.getInstance().sendTweet("MyAwesomneTweet");
-				fetchTweets();
+	
 			}
 		});
 
-		MainModel.getInstance().disconnectTwitter();
-		Log.e("AWESOME", "RESUMDED");
-
-		buttonLogin = (Button) findViewById(R.id.twitterLogin);
-
-		buttonLogin.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				askOAuth();
-			}
-
-		});
+//		MainModel.getInstance().disconnectTwitter();
 		/**
 		 * Handle OAuth Callback
 		 */
@@ -120,6 +93,13 @@ public class LoginActivity extends SherlockActivity {
 				Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		}
+		
+		if(!isConnected()){
+			askOAuth();
+		}else{
+			fetchTweets();
+		}
+		
 	}
 
 	protected void onResume() {
@@ -163,8 +143,6 @@ public class LoginActivity extends SherlockActivity {
 					Toast.LENGTH_LONG).show();
 			this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
 					.parse(requestToken.getAuthenticationURL())));
-			// TODO retrieve tweets and build project
-
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
@@ -231,33 +209,4 @@ public class LoginActivity extends SherlockActivity {
 	private void hideProgressDialog() {
 		pDialog.dismiss();
 	}
-
-	// class GetTask extends AsyncTask<Object, Void, String> {
-	// ProgressDialog mDialog = null;
-	//
-	// @Override
-	// protected void onPreExecute() {
-	// super.onPreExecute();
-	//
-	// mDialog = new ProgressDialog(LoginActivity.this);
-	// mDialog.setMessage("Please wait...");
-	// mDialog.show();
-	// }
-	//
-	// @Override
-	// protected String doInBackground(Object... params) {
-	//
-	//
-	// return null;
-	// // do stuff in background : fetch response
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(String result) {
-	// super.onPostExecute(result);
-	// setProgressBarIndeterminateVisibility(false);
-	// // mDialog.dismiss();
-	// }
-	// }
-
 }
