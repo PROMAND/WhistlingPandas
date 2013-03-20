@@ -12,9 +12,15 @@
         <EditTextPreference
                 android:title="Enter your name"
                 android:key="creator"
-                android:summary="Your name will be used to distinguish task creators"
+                android:summary="Once you enter your name you can not change it."
                 android:defaultValue=""
-         />
+                />
+
+        <EditTextPreference
+                android:title="Project name"
+                android:key="projectName"
+                android:summary="Once you enter the project name you can not change it."
+                />
 
 
         <ListPreference
@@ -33,6 +39,9 @@
                 android:id="@+id/taskNotification"
                 android:key="taskNotification"
                 android:title="Notify when new task is added" />
+
+        <Preference android:title="GO TO THE TASK LIST"
+                    android:key="goToTheMainPage"/>
 
     </PreferenceCategory>
 </PreferenceScreen >

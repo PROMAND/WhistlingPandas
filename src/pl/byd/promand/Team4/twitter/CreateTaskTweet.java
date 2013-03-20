@@ -67,8 +67,7 @@ public class CreateTaskTweet extends AbstractTaskManagerTweet {
 		sb.append(getTask().getAssignee());
 		// Creator
 		sb.append(Constants.SEPARATOR);
-		// TODO
-		sb.append("testself 2") ;//MainModel.getInstance().getProject().getYourself());
+		sb.append(getTask().getCreator());
 		// Deadline
 		sb.append(Constants.SEPARATOR);
 		sb.append(getTask().getFormattedDeadline());

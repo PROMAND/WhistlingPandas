@@ -2,7 +2,10 @@ package pl.byd.promand.Team4;
 
 import java.util.*;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
+import android.widget.*;
 import pl.byd.promand.Team4.adapter.TaskPriorityAdapter;
 import pl.byd.promand.Team4.adapter.TaskStateAdapter;
 import pl.byd.promand.Team4.adapter.TaskTypeAdapter;
@@ -20,19 +23,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.LinearLayout;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Gravity;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -43,10 +37,12 @@ public class AddTaskActivity extends SherlockActivity {
 	/**
 	 * Called when the activity is first created.
 	 */
+    SharedPreferences prefs;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+        prefs = PreferenceManager.getDefaultSharedPreferences(AddTaskActivity.this);
 		Task task = null;
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -68,6 +64,14 @@ public class AddTaskActivity extends SherlockActivity {
         ArrayAdapter<String> assigneeSpinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, R.id.spinner_item, assigneeArray);
         assigneeSpinner.setAdapter(assigneeSpinnerAdapter);
 
+        // Creator
+        TextView creator = (TextView) findViewById(R.id.creator);
+        if (task != null) {
+            creator.setText(task.getCreator());
+        } else {
+            creator.setText(prefs.getString("creator", ""));
+        }
+
         // Task type
         TaskType[] taskTypeValues = TaskType.values();
 		Spinner typeSpinner = (Spinner) findViewById(R.id.type);
@@ -80,14 +84,7 @@ public class AddTaskActivity extends SherlockActivity {
 		TaskStateAdapter stateSpinnerAdapter = new TaskStateAdapter(this, Arrays.asList(taskStateValues),getResources());
 		stateSpinner.setAdapter(stateSpinnerAdapter);
 
-        // Task priority 
-		/*
-        TaskPriority[] taskPriorityValues = TaskPriority.values();
-        Spinner prioritySpinner = (Spinner) findViewById(R.id.id_edittask_priority);
-		TaskPriorityAdapter prioritySpinnerAdapter = new TaskPriorityAdapter(this, Arrays.asList(taskPriorityValues),getResources());
-		prioritySpinner.setAdapter(prioritySpinnerAdapter);
-		*/
-		// the code below doesn't work
+        // Task priority
         RadioGroup rg = (RadioGroup) findViewById(R.id.radioPriority);
         TaskPriority[] taskPriorityValues = TaskPriority.values();
         for (TaskPriority item : taskPriorityValues) {
@@ -157,8 +154,6 @@ public class AddTaskActivity extends SherlockActivity {
                 EditText titleText = (EditText) findViewById(R.id.title);
                 String newTitle = titleText.getText().toString();
 
-                String newCreator = "";
-
                 EditText descText = (EditText) findViewById(R.id.description);
                 String newDescription = descText.getText().toString();
 
@@ -185,6 +180,7 @@ public class AddTaskActivity extends SherlockActivity {
                 int idx = priorityChecked.indexOfChild(radioButton);
                 TaskPriority newPriority = TaskPriority.values()[idx];
 
+
                 //create task object
                 Task task = null;
                 Intent intent = getIntent();
@@ -194,23 +190,39 @@ public class AddTaskActivity extends SherlockActivity {
                         task = data.getParcelable(Constants.INTENT_EXTRA_TASK);
                     }
                 }
-                Task newTask = new Task(task.getId(), newTitle, newAssignee, newCreator, newDescription,
-                       newCreated, newDeadline, newPriority, newType, newState);
-                CreateTaskTweet newTweet = new CreateTaskTweet(newTask);
+
+                String newCreator;
+                if (task == null)  {
+                    newCreator = prefs.getString("creator", "");
+                } else {
+                    newCreator = task.getCreator();
+                }
 
                 //save the task into the twitter;
 
+                Task newTask = new Task(newTitle, newAssignee, newCreator, newDescription,
+                        newCreated, newDeadline, newPriority, newType, newState);
+                CreateTaskTweet newTweet = new CreateTaskTweet(newTask);
 
-                //get unique id from twitter - in my case, get counter value.
-                long uniqueId = Utils.getNextValue();
+
+                //get unique id from twitter
+                long uniqueId;
+                if (task != null) {
+                    uniqueId = task.getId();
+                } else {
+                    uniqueId = MainModel.getInstance().sendTweet(newTweet.getTweet());
+                }
+
+                //either set the new id from twitter or leave old one
+                newTask.setId(uniqueId);
 
                 //save task object into the map
-                    if (task != null)  {
-                        UpdateTaskTweet utt = new UpdateTaskTweet(newTask);
-                        MainModel.getInstance().updateTask(utt);
-                    } else {
-                        MainModel.getInstance().addTask(uniqueId, newTask);
-                    }
+                if (task != null)  {
+                    UpdateTaskTweet utt = new UpdateTaskTweet(newTask);
+                    MainModel.getInstance().updateTask(utt);
+                } else {
+                    MainModel.getInstance().addTask(uniqueId, newTask);
+                }
 
                 //show message that everything is saved
                 Context context = getApplicationContext();
