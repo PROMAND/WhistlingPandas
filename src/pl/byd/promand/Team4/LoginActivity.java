@@ -167,6 +167,7 @@ public class LoginActivity extends SherlockActivity {
 		Intent iAssigned = new Intent(LoginActivity.this,
 				MainViewActivity.class);
 		this.finish();
+		
 		startActivity(iAssigned);
 	}
 
