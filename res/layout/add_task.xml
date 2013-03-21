@@ -27,6 +27,7 @@
             <EditText
                 style="@style/textField"
                 android:id="@+id/title"
+                android:maxLength="28"
                 android:selectAllOnFocus="false">
                 <requestFocus />
             </EditText>
@@ -111,6 +112,7 @@
                 android:layout_height="60dp"
                 android:layout_marginBottom="10dp"
                 android:ems="10"
+                android:maxLength="42"
                 android:gravity="top"
                 android:includeFontPadding="false"
                 android:inputType="textMultiLine"

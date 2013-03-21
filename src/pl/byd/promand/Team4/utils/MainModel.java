@@ -316,7 +316,7 @@ public class MainModel {
 			Paging paging = new Paging(1, 1000);
 			ResponseList<Status> ht = twitter.getUserTimeline(paging); // getHomeTimeline();
 			if(!ht.isEmpty())
-			this.user = String.valueOf(ht.get(0).getUser());
+			this.user = String.valueOf(ht.get(0).getUser().getScreenName());
 			String name = Thread.currentThread().getName();
 			Log.i("thread", name);
 			// ht.wait();

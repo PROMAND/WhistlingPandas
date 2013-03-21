@@ -172,8 +172,14 @@ public class LoginActivity extends SherlockActivity {
 				unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets,
 				unmarshalledProjectTweets);
 		hideProgressDialog();
-		Intent iAssigned = new Intent(LoginActivity.this,
-				MainViewActivity.class);
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("setting", 0);
+        Intent iAssigned;
+        if (sp.getString("creator", "") == "") {
+            iAssigned = new Intent(LoginActivity.this, PropertiesActivity.class);
+        }   else {
+		    iAssigned = new Intent(LoginActivity.this, MainViewActivity.class);
+        }
 		this.finish();
 		
 		startActivity(iAssigned);

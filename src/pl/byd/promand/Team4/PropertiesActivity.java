@@ -61,19 +61,19 @@ public class PropertiesActivity extends SherlockPreferenceActivity {
                 }
             }
         });
-
         //set project name
-
-        Status newProjectStatus = MainModel.getInstance().getTweetByText("NP from:Gytis69598401");
+        String projectName = "";
+        String accountName = MainModel.getInstance().getAccoutname();
+        Status newProjectStatus = MainModel.getInstance().getTweetByText("NP from:"+accountName);
         String[] projectNameInfo = newProjectStatus.getText().split(";");
-        String projectName =  projectNameInfo[1];
+        projectName =  projectNameInfo[1];
         EditTextPreference projectPref = (EditTextPreference) findPreference("projectName");
         if (projectPref.getText() != null) {
             projectPref.setSummary(projectPref.getText());
         } else if (projectName != null && projectName != "") {
             projectPref.setSummary(projectName);
         }
-        final boolean thereIsProjectName = (projectName==null && projectName=="")?true:false;
+        final boolean thereIsProjectName = projectName==""?false:true;
         projectPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -99,7 +99,8 @@ public class PropertiesActivity extends SherlockPreferenceActivity {
                 Context context = getApplicationContext();
                 int duration = Toast.LENGTH_SHORT;
                 CharSequence text;
-                if (sp.getString("creator", "").isEmpty() || sp.getString("projectName", "").isEmpty()) {
+                if (sp.getString("creator", "").isEmpty() ||
+                        (sp.getString("projectName", "").isEmpty() && !thereIsProjectName)) {
                     text = "Please, enter your name and project name before switching to the task list!";
                 } else {
                     text = "Saved";

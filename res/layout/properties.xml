@@ -12,6 +12,7 @@
         <EditTextPreference
                 android:title="Enter your name"
                 android:key="creator"
+                android:maxLength="15"
                 android:summary="Once you enter your name you can not change it."
                 android:defaultValue=""
                 />
