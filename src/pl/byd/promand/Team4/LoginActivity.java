@@ -58,7 +58,7 @@ public class LoginActivity extends SherlockActivity {
 				Constants.PREFERENCE_NAME, MODE_PRIVATE);
 
 		mSharedPreferences = MainModel.mSharedPreferences;
-
+		MainModel.loginActivityInstance = this;
 		MainModel.getInstance().disconnectTwitter();
 		/**
 		 * Handle OAuth Callback

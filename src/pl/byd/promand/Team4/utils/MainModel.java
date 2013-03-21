@@ -7,10 +7,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import pl.byd.promand.Team4.LoginActivity;
@@ -62,8 +65,13 @@ public class MainModel {
 	/**
 	 * Your own username
 	 */
-	private String yourself
-	;
+	private String yourself;
+	
+	
+	public static LoginActivity loginActivityInstance;
+
+	private Timer th;
+	
 	/**
 	 * Private constructor for the singleton instance
 	 */
@@ -362,5 +370,34 @@ public class MainModel {
 	public void setTasksViewMode(TasksViewMode mode) {
 		this.tasksViewMode  = mode;
 	}
+	
+	
+
+	public void updateByFrequency() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(loginActivityInstance);
+		Map<String, ?> keys = prefs.getAll();
+		for (Map.Entry<String, ?> entry : keys.entrySet()) {
+			if (entry.getKey().equals("updates")) {
+					startUpdateFrequency(Integer.parseInt(String.valueOf(entry.getValue())));
+			}
+		}
+
+	}
+
+	private void startUpdateFrequency(int frequency) {
+		th = new Timer();
+		// Set the schedule function and rate
+		th.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				// MainModel.getInstance().g
+//				MainModel.getInstance().parseTweets();
+			}
+
+		}, 0, 15000);
+	}
+
 
 }
