@@ -1,10 +1,7 @@
 package pl.byd.promand.Team4;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+import android.preference.PreferenceManager;
 import pl.byd.promand.Team4.activitylist.ITaskListItem;
 import pl.byd.promand.Team4.activitylist.TaskListAdapter;
 import pl.byd.promand.Team4.activitylist.TaskListSeparator;
@@ -21,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
@@ -65,7 +63,9 @@ public class MainViewActivity extends SherlockListActivity {
     		MainViewActivity.this.finish();
 			return true;
 		case R.id.refresh:
-            //refreshes only local taskMap, not twitter
+            //refreshes only local taskMap, not twitter     SharedPreferences prefs = MainModel.mSharedPreferences;
+
+            //MainModel.getTweets();     //TODO uncomment when function will be present
             setListAdapter(new TaskListAdapter(this, MainModel.getInstance().getTasksList()));
 			return true;
         case R.id.logout:
@@ -95,7 +95,7 @@ public class MainViewActivity extends SherlockListActivity {
 		Task selectedValue = (Task) selectedInstance;
 
 		// Toast.makeText(this, selectedValue.getTitle(), Toast.LENGTH_SHORT).show();
-        Intent addTaskActivity =new Intent(MainViewActivity.this, AddTaskActivity.class);
+        Intent addTaskActivity = new Intent(MainViewActivity.this, AddTaskActivity.class);
         addTaskActivity.putExtra(Constants.INTENT_EXTRA_TASK, selectedValue);
         startActivityForResult(addTaskActivity, Constants.REFRESH_MAIN_SCREEN);
 		}

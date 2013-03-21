@@ -202,14 +202,16 @@ public class AddTaskActivity extends SherlockActivity {
 
                 Task newTask = new Task(newTitle, newAssignee, newCreator, newDescription,
                         newCreated, newDeadline, newPriority, newType, newState);
-                CreateTaskTweet newTweet = new CreateTaskTweet(newTask);
+
 
 
                 //get unique id from twitter
                 long uniqueId;
                 if (task != null) {
+                    UpdateTaskTweet newTweet = new UpdateTaskTweet(newTask);
                     uniqueId = task.getId();
                 } else {
+                    CreateTaskTweet newTweet = new CreateTaskTweet(newTask);
                     uniqueId = MainModel.getInstance().sendTweet(newTweet.getTweet());
                 }
 

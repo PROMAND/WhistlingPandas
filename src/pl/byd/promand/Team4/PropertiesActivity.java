@@ -1,5 +1,8 @@
 package pl.byd.promand.Team4;
 
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import pl.byd.promand.Team4.domain.Project;
 import pl.byd.promand.Team4.twitter.AddMemberTweet;
 import pl.byd.promand.Team4.twitter.NewProjectTweet;
@@ -16,10 +19,12 @@ import android.preference.*;
 import android.content.SharedPreferences;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import twitter4j.Status;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public class PropertiesActivity extends PreferenceActivity {
+public class PropertiesActivity extends SherlockPreferenceActivity {
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -34,13 +39,12 @@ public class PropertiesActivity extends PreferenceActivity {
 
         sp = getApplicationContext().getSharedPreferences("setting", 0);
 
-
+        //set username
         EditTextPreference creatorPref = (EditTextPreference) findPreference("creator");
         if (creatorPref.getText() != null) {
             creatorPref.setSummary(creatorPref.getText());
             MainModel.getInstance().setYourself(creatorPref.getText());
         }
-        //once you enter the name you can't change it
         creatorPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -58,15 +62,22 @@ public class PropertiesActivity extends PreferenceActivity {
             }
         });
 
+        //set project name
 
+        Status newProjectStatus = MainModel.getInstance().getTweetByText("NP from:Gytis69598401");
+        String[] projectNameInfo = newProjectStatus.getText().split(";");
+        String projectName =  projectNameInfo[1];
         EditTextPreference projectPref = (EditTextPreference) findPreference("projectName");
         if (projectPref.getText() != null) {
             projectPref.setSummary(projectPref.getText());
+        } else if (projectName != null && projectName != "") {
+            projectPref.setSummary(projectName);
         }
+        final boolean thereIsProjectName = (projectName==null && projectName=="")?true:false;
         projectPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if (sp.getString("projectName", "") == "") {
+                if (sp.getString("projectName", "") == "" && !thereIsProjectName) {
                     preference.setSummary(o.toString());
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("projectName", o.toString());
@@ -115,5 +126,22 @@ public class PropertiesActivity extends PreferenceActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.menu_onetaskview, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_back:
+                Intent allTasks =new Intent(PropertiesActivity.this, MainViewActivity.class);
+                startActivity(allTasks);
+                PropertiesActivity.this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

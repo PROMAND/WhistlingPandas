@@ -27,11 +27,7 @@ import pl.byd.promand.Team4.twitter.CreateTaskTweet;
 import pl.byd.promand.Team4.twitter.NewProjectTweet;
 import pl.byd.promand.Team4.twitter.TweetType;
 import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
-import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
+import twitter4j.*;
 
 /**
  * 
@@ -236,7 +232,6 @@ public class MainModel {
 		Collections.sort(ret);
 		return ret;
 	}
-	
 	/**
 	 * 
 	 * Retrieves the central context for the current project and its associated tasks
@@ -280,12 +275,34 @@ public class MainModel {
 			Log.e("Parsing", "Updating task failed: " + e.getMessage());
 		}
 	}
-	
+
+    /**
+     *
+     * Retrieves only one tweet
+     *
+     * @return Status
+     */
+    public Status getTweetByText(String q) {
+        try {
+            Query query = new Query(q);
+            QueryResult result;
+            do {
+                result = twitter.search(query);
+                List<Status> tweets = result.getTweets();
+                for (Status tweet : tweets) {
+                    return tweet;
+                }
+            } while ((query = result.nextQuery()) != null);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            Log.e("Failed to search tweets:", te.getMessage());
+        }
+        return null;
+    }
 	/**
 	 * Retrieves user twitter post form twitter
 	 * @return twitter posts
 	 */
-	
 	public ResponseList<Status> getTweets() {
 		try {
 			Paging paging = new Paging(1, 1000);
