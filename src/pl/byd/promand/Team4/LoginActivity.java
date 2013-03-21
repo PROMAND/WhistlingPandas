@@ -151,12 +151,14 @@ public class LoginActivity extends SherlockActivity {
 				Task curTask = curCreateTaskTweet.getTask();
 				unmarshalledCreateTaskTweets.add(curCreateTaskTweet);
 				curTask.setId(curTweet.getId());
+				curTask.setCreated(curTweet.getCreatedAt());
 				break;
 			case NP:
 				unmarshalledProjectTweets.add((NewProjectTweet) cur);
 				break;
 			case UT:
-				unamrshalledUpdateTaskTweets.add((UpdateTaskTweet) cur);
+				UpdateTaskTweet curUpdateTaskTweet = (UpdateTaskTweet) cur;
+				unamrshalledUpdateTaskTweets.add(curUpdateTaskTweet);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown tweet type: "
