@@ -85,6 +85,7 @@ public class MainViewActivity extends SherlockListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		MainModel.getInstance().updateByFrequency(); 
 		setListAdapter(new TaskListAdapter(this, MainModel.getInstance().getTasksList()));
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -375,6 +376,53 @@ public class MainModel {
 	
 	
 
+	public void parseTwitterPosts(){
+		List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
+		List<AddMemberTweet> unmarshalledAddMemberTweets = new ArrayList<AddMemberTweet>();
+		List<CreateTaskTweet> unmarshalledCreateTaskTweets = new ArrayList<CreateTaskTweet>();
+		List<UpdateTaskTweet> unamrshalledUpdateTaskTweets = new ArrayList<UpdateTaskTweet>();
+
+		ResponseList<Status> retrievedTweets = MainModel.getInstance()
+				.getTweets();
+		Iterator<Status> it = retrievedTweets.iterator();
+
+		try {
+		while (it.hasNext()) {
+			Status curTweet = it.next();
+			String text = curTweet.getText();
+			AbstractTaskManagerTweet cur = AbstractTaskManagerTweet
+					.parseTweet(text);
+			switch (cur.getType()) {
+			case AM:
+				unmarshalledAddMemberTweets.add((AddMemberTweet) cur);
+				break;
+			case CT:
+				CreateTaskTweet curCreateTaskTweet = (CreateTaskTweet) cur;
+				Task curTask = curCreateTaskTweet.getTask();
+				unmarshalledCreateTaskTweets.add(curCreateTaskTweet);
+				curTask.setId(curTweet.getId());
+				curTask.setCreated(curTweet.getCreatedAt());
+				break;
+			case NP:
+				unmarshalledProjectTweets.add((NewProjectTweet) cur);
+				break;
+			case UT:
+				UpdateTaskTweet curUpdateTaskTweet = (UpdateTaskTweet) cur;
+				unamrshalledUpdateTaskTweets.add(curUpdateTaskTweet);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown tweet type: "
+						+ cur.getType());
+			}
+		}
+		} catch (Exception e) {
+			Log.e("Parsing", "Parsing tweet failed: " + e);
+		}
+		MainModel.getInstance().setState(unamrshalledUpdateTaskTweets,
+				unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets,
+				unmarshalledProjectTweets);
+	}
+
 	public void updateByFrequency() {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(loginActivityInstance);
@@ -394,12 +442,15 @@ public class MainModel {
 
 			@Override
 			public void run() {
-				// MainModel.getInstance().g
-//				MainModel.getInstance().parseTweets();
+				parseTwitterPosts();
+				Log.e("Update", "OK");
 			}
 
-		}, 0, 15000);
+		}, 0, frequency*1000);
 	}
+	
+	
+	
 
 	public String getAccoutname(){
 		return this.user;
