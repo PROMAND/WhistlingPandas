@@ -71,7 +71,7 @@ public class MainModel {
 	public static LoginActivity loginActivityInstance;
 
 	private Timer th;
-	
+	private String user;
 	/**
 	 * Private constructor for the singleton instance
 	 */
@@ -315,6 +315,8 @@ public class MainModel {
 		try {
 			Paging paging = new Paging(1, 1000);
 			ResponseList<Status> ht = twitter.getUserTimeline(paging); // getHomeTimeline();
+			if(!ht.isEmpty())
+			this.user = String.valueOf(ht.get(0).getUser());
 			String name = Thread.currentThread().getName();
 			Log.i("thread", name);
 			// ht.wait();
@@ -399,5 +401,8 @@ public class MainModel {
 		}, 0, 15000);
 	}
 
+	public String getAccoutname(){
+		return this.user;
+	}
 
 }
