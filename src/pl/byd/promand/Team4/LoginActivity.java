@@ -127,10 +127,10 @@ public class LoginActivity extends SherlockActivity {
 
 	private void fetchTweets() {
 		showProgressDialog();
-		MainModel.getInstance().parseTwitterPosts();
+		boolean result = MainModel.getInstance().parseTwitterPosts();
         SharedPreferences sp = getApplicationContext().getSharedPreferences("setting", 0);
         Intent iAssigned;
-        if (sp.getString("creator", "") == "") {
+        if (!result || sp.getString("creator", "") == "") {
             iAssigned = new Intent(LoginActivity.this, PropertiesActivity.class);
         }   else {
 		    iAssigned = new Intent(LoginActivity.this, MainViewActivity.class);

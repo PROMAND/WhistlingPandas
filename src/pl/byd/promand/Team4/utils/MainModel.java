@@ -376,7 +376,7 @@ public class MainModel {
 	
 	
 
-	public void parseTwitterPosts(){
+	public boolean parseTwitterPosts(){
 		List<NewProjectTweet> unmarshalledProjectTweets = new ArrayList<NewProjectTweet>();
 		List<AddMemberTweet> unmarshalledAddMemberTweets = new ArrayList<AddMemberTweet>();
 		List<CreateTaskTweet> unmarshalledCreateTaskTweets = new ArrayList<CreateTaskTweet>();
@@ -384,6 +384,9 @@ public class MainModel {
 
 		ResponseList<Status> retrievedTweets = MainModel.getInstance()
 				.getTweets();
+		if (retrievedTweets.size() < 1) {
+			return false;
+		}
 		Iterator<Status> it = retrievedTweets.iterator();
 
 		try {
@@ -421,6 +424,7 @@ public class MainModel {
 		MainModel.getInstance().setState(unamrshalledUpdateTaskTweets,
 				unmarshalledAddMemberTweets, unmarshalledCreateTaskTweets,
 				unmarshalledProjectTweets);
+		return true;
 	}
 
 	public void updateByFrequency() {
