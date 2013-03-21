@@ -1,16 +1,12 @@
 package pl.byd.promand.Team4.activitylist;
 
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import pl.byd.promand.Team4.R;
-import pl.byd.promand.Team4.R.id;
-import pl.byd.promand.Team4.R.layout;
 import pl.byd.promand.Team4.domain.Task;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +53,23 @@ public class TaskListAdapter extends ArrayAdapter<ITaskListItem> {
 			TextView tvProjectName = (TextView) rowView
 					.findViewById(R.id.id_projectname);
 			Task currentTask = (Task) current;
-			tvProjectName.setText(currentTask.getTitle());
+			String taskTitleVal = currentTask.getTitle();
+			
+			//WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+			// Display display = wm.getDefaultDisplay();
+			int maskedLayout = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+		    if (maskedLayout == Configuration.SCREENLAYOUT_SIZE_NORMAL) {     
+		    	if (taskTitleVal.length() > 28) {
+		    		taskTitleVal = taskTitleVal.substring(0, 24) + "...";
+		    	}
+		    } else if (maskedLayout == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+		    	if (taskTitleVal.length() > 45) {
+		    		taskTitleVal = taskTitleVal.substring(0, 42) + "...";
+		    	}
+		    }
+		    // 
+			
+			tvProjectName.setText(taskTitleVal);
 			// Log.i("THREADS", "title=" + currentTask.getTitle());
 
 			// Assignee
