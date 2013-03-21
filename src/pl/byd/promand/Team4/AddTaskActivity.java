@@ -219,9 +219,10 @@ public class AddTaskActivity extends SherlockActivity {
                 //save task object into the map
                 if (task != null)  {
                     UpdateTaskTweet utt = new UpdateTaskTweet(newTask);
+                    MainModel.getInstance().sendTweet(utt.getTweet());
                     MainModel.getInstance().updateTask(utt);
                 } else {
-                    MainModel.getInstance().addTask(uniqueId, newTask);
+                    MainModel.getInstance().addTask(newTask);
                 }
 
                 //show message that everything is saved
@@ -231,6 +232,8 @@ public class AddTaskActivity extends SherlockActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
+                Intent allTasks =new Intent(AddTaskActivity.this, MainViewActivity.class);
+                startActivity(allTasks);
                 //return to the main view
                 AddTaskActivity.this.finish();
             }

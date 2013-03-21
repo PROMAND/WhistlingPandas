@@ -150,12 +150,13 @@ public class MainModel {
 	 * @param id Task id
 	 * @param task Task object
 	 */
-	public void addTask(Long id, Task task) {
-		if (id == null) {
-			throw new NullPointerException("Id is null");
-		}
+	public void addTask(Task task) {
 		if (task == null) {
 			throw new NullPointerException("Task is null");
+		}
+		Long id = task.getId();
+		if (id == null) {
+			throw new NullPointerException("Id is null");
 		}
 		if (tasksMap.containsKey(id)) {
 			throw new IllegalStateException("A task with id " + id + " already exists");
