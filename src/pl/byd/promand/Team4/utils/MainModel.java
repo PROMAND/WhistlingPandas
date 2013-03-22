@@ -201,7 +201,7 @@ public class MainModel {
 			// Log.i("yourself", me);
 			List<Task> tmp = new ArrayList<Task>();
 			for (Task cur : tasksAsList) {
-				if (cur.getCreator().equals(me)) {
+				if (cur.getCreator() != null && cur.getCreator().equals(me)) {
 					tmp.add(cur);
 				}
 			}
@@ -211,7 +211,7 @@ public class MainModel {
 			// Log.i("yourself", me);
 			List<Task> tmp2 = new ArrayList<Task>();
 			for (Task cur : tasksAsList) {
-				if (cur.getAssignee().equals(me)) {
+				if (cur.getAssignee() != null && cur.getAssignee().equals(me)) {
 					tmp2.add(cur);
 				}
 			}
