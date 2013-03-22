@@ -198,6 +198,7 @@ public class MainModel {
 			// Nothing to do
 			break;
 		case CREATED_BY_ME:
+			// Log.i("yourself", me);
 			List<Task> tmp = new ArrayList<Task>();
 			for (Task cur : tasksAsList) {
 				if (cur.getCreator().equals(me)) {
@@ -207,6 +208,7 @@ public class MainModel {
 			tasksAsList = tmp;
 			break;
 		case ASSIGNED_TO_ME:
+			// Log.i("yourself", me);
 			List<Task> tmp2 = new ArrayList<Task>();
 			for (Task cur : tasksAsList) {
 				if (cur.getAssignee().equals(me)) {
@@ -218,7 +220,7 @@ public class MainModel {
 		default:
 			throw new IllegalArgumentException("Unknown view mode: " + tasksViewMode);
 		}
-		Log.i("THREADS", "main model, returning " + tasksAsList.size());
+		// Log.i("THREADS", "main model, returning " + tasksAsList.size());
 		/*
 		 9,223,372,036,854,775,807
 		List<String> parsed = new ArrayList<String>();
