@@ -7,6 +7,7 @@ import pl.byd.promand.Team4.domain.Project;
 import pl.byd.promand.Team4.twitter.AddMemberTweet;
 import pl.byd.promand.Team4.twitter.NewProjectTweet;
 import pl.byd.promand.Team4.utils.MainModel;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -61,6 +62,7 @@ public class PropertiesActivity extends SherlockPreferenceActivity {
                     MainModel.getInstance().sendTweet(newProjectTweet.getTweet());
 
                     members.add(newCreator);
+                    MainModel.getInstance().setYourself(newCreator);
                     if (MainModel.getInstance().getProject() == null)       {
                         Project project = new Project("testname", members);
                     }
@@ -110,7 +112,8 @@ public class PropertiesActivity extends SherlockPreferenceActivity {
 
         Preference button = (Preference)findPreference("goToTheMainPage");
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
+            @SuppressLint("NewApi")
+			@Override
             public boolean onPreferenceClick(Preference arg0) {
 
                 Context context = getApplicationContext();
