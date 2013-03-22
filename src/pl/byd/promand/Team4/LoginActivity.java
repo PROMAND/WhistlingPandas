@@ -1,20 +1,8 @@
 package pl.byd.promand.Team4;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import pl.byd.promand.Team4.domain.Task;
-import pl.byd.promand.Team4.twitter.AbstractTaskManagerTweet;
-import pl.byd.promand.Team4.twitter.AddMemberTweet;
-import pl.byd.promand.Team4.twitter.CreateTaskTweet;
-import pl.byd.promand.Team4.twitter.NewProjectTweet;
-import pl.byd.promand.Team4.twitter.UpdateTaskTweet;
 import pl.byd.promand.Team4.utils.Constants;
 import pl.byd.promand.Team4.utils.MainModel;
 import com.actionbarsherlock.app.SherlockActivity;
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -32,8 +20,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginActivity extends SherlockActivity {
@@ -41,10 +27,6 @@ public class LoginActivity extends SherlockActivity {
 	private static final String TAG = "T4JSample";
 
 	private Button buttonLogin;
-	private Button getTweetButton;
-	private TextView tweetText;
-	private ScrollView scrollView;
-
 	private static Twitter twitter;
 	private static RequestToken requestToken;
 	private static SharedPreferences mSharedPreferences;
@@ -147,9 +129,9 @@ public class LoginActivity extends SherlockActivity {
         }   else {
 		    iAssigned = new Intent(LoginActivity.this, MainViewActivity.class);
         }
-		this.finish();
-		
+		hideProgressDialog();
 		startActivity(iAssigned);
+		this.finish();
 	}
 
 	private void showProgressDialog() {
