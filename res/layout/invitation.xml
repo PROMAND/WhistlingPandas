@@ -36,7 +36,7 @@
         android:gravity="top"
         android:inputType="textMultiLine"
         android:lines="5"
-        android:text="George R.R.Martin invites you to join @currentProjectAccount on twitter.com!"
+        android:text="@string/invitation_text"
         android:textSize="38sp" />
 
     <RelativeLayout

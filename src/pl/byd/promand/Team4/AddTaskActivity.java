@@ -193,7 +193,7 @@ public class AddTaskActivity extends SherlockActivity {
 
                 String newCreator;
                 if (task == null)  {
-                    newCreator = MainModel.getInstance().getYourself(); // prefs.getString("creator", "");
+                    newCreator = prefs.getString("creator", "");
                 } else {
                     newCreator = task.getCreator();
                 }

@@ -65,11 +65,11 @@ public class MainViewActivity extends SherlockListActivity {
 		case R.id.refresh:
             //refreshes only local taskMap, not twitter     SharedPreferences prefs = MainModel.mSharedPreferences;
 
-            //MainModel.getTweets();     //TODO uncomment when function will be present
+            MainModel.getInstance().parseTwitterPosts();     //TODO uncomment when function will be present
             setListAdapter(new TaskListAdapter(this, MainModel.getInstance().getTasksList()));
 			return true;
         case R.id.logout:
-            Intent lg =new Intent(MainViewActivity.this, LoginActivity.class);
+            Intent lg = new Intent(MainViewActivity.this, LoginActivity.class);
             startActivity(lg);
     		MainViewActivity.this.finish();
             return true;

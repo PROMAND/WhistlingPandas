@@ -30,4 +30,6 @@
     <string name="label_disconnect">Disconnect</string>
     <string name="label_connect">Connect to Twitter</string>
 
+    <string name="invitation_text">George R.R.Martin invites you to join the project in Pandas Organiser! Your credentials are: username:currentProjectAccount and password:pass123123!</string>
+
 </resources>
