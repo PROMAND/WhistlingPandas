@@ -25,4 +25,8 @@ public class Project {
 		return members;
 	}
 
+    public void addMember(String member) {
+        members.add(member);
+    }
+
 }

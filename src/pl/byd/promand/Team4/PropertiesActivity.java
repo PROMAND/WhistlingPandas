@@ -22,6 +22,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import twitter4j.Status;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class PropertiesActivity extends SherlockPreferenceActivity {
@@ -45,16 +46,25 @@ public class PropertiesActivity extends SherlockPreferenceActivity {
             creatorPref.setSummary(creatorPref.getText());
             MainModel.getInstance().setYourself(creatorPref.getText());
         }
+        final List<String> members = new ArrayList<String>();
         creatorPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if (sp.getString("creator", "") == "") {
+
                     preference.setSummary(o.toString());
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("creator", o.toString());
+                    String newCreator = o.toString();
+                    editor.putString("creator", newCreator);
                     editor.commit();
                     AddMemberTweet newProjectTweet = new AddMemberTweet(o.toString());
                     MainModel.getInstance().sendTweet(newProjectTweet.getTweet());
+
+                    members.add(newCreator);
+                    if (MainModel.getInstance().getProject() == null)       {
+                        Project project = new Project("testname", members);
+                    }
+//                    MainModel.getInstance().getProject().addMember("");
                     return true;
                 } else {
                     return false;
@@ -65,8 +75,12 @@ public class PropertiesActivity extends SherlockPreferenceActivity {
         String projectName = "";
         String accountName = MainModel.getInstance().getAccoutname();
         Status newProjectStatus = MainModel.getInstance().getTweetByText("NP from:"+accountName);
-        String[] projectNameInfo = newProjectStatus.getText().split(";");
-        projectName =  projectNameInfo[1];
+
+        String[] projectNameInfo;
+        if (newProjectStatus != null)   {
+            projectNameInfo = newProjectStatus.getText().split(";");
+            projectName =  projectNameInfo[1];
+        }
         EditTextPreference projectPref = (EditTextPreference) findPreference("projectName");
         if (projectPref.getText() != null) {
             projectPref.setSummary(projectPref.getText());
@@ -78,12 +92,15 @@ public class PropertiesActivity extends SherlockPreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if (sp.getString("projectName", "") == "" && !thereIsProjectName) {
+
                     preference.setSummary(o.toString());
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("projectName", o.toString());
                     editor.commit();
                     NewProjectTweet newProjectTweet = new NewProjectTweet(new Project(o.toString(), new ArrayList<String>()));
                     MainModel.getInstance().sendTweet(newProjectTweet.getTweet());
+
+                    MainModel.getInstance().setProject(o.toString(), members);
                     return true;
                 }  else {
                     return false;

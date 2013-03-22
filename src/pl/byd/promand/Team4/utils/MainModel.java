@@ -261,6 +261,10 @@ public class MainModel {
 		return project;
 	}
 
+    public void setProject(String projectName, List<String> members) {
+        project = new Project(projectName, members);
+    }
+
 	public void setState(
 			List<UpdateTaskTweet> unamrshalledUpdateTaskTweets,
 			List<AddMemberTweet> unmarshalledAddMemberTweets,
@@ -268,6 +272,7 @@ public class MainModel {
 			List<NewProjectTweet> unmarshalledProjectTweets) {
 		tasksMap.clear();
 		// Setting state as context state
+        //if (getTweets().size() > 0)
 		project = unmarshalledProjectTweets.get(0).getProject();
 		for (AddMemberTweet cur: unmarshalledAddMemberTweets) {
 			project.getMembers().add(cur.getMemberName());
@@ -384,6 +389,7 @@ public class MainModel {
 
 		ResponseList<Status> retrievedTweets = MainModel.getInstance()
 				.getTweets();
+        Log.i("tweetsSize", String.valueOf(retrievedTweets.size()));
 		if (retrievedTweets.size() < 1) {
 			return false;
 		}
