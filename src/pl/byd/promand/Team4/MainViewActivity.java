@@ -69,7 +69,9 @@ public class MainViewActivity extends SherlockListActivity {
             setListAdapter(new TaskListAdapter(this, MainModel.getInstance().getTasksList()));
 			return true;
         case R.id.logout:
-
+            Intent lg =new Intent(MainViewActivity.this, LoginActivity.class);
+            startActivity(lg);
+    		MainViewActivity.this.finish();
             return true;
 		default:
 			return super.onOptionsItemSelected(item);

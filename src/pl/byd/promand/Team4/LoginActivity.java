@@ -54,6 +54,18 @@ public class LoginActivity extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+		buttonLogin = (Button)findViewById(R.id.twitterLogin);
+		buttonLogin.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = getIntent();
+				finish();
+				startActivity(intent);
+			}
+			
+		});
 		MainModel.mSharedPreferences = getSharedPreferences(
 				Constants.PREFERENCE_NAME, MODE_PRIVATE);
 
